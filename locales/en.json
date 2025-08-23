@@ -1,0 +1,31 @@
+{
+  "common": {
+    "next": "Next",
+    "previous": "Previous",
+    "calculate": "Calculate Tax",
+    "save": "Save Calculation",
+    "submit": "Submit",
+    "loading": "Loading..."
+  },
+  "navigation": {
+    "home": "Home",
+    "calculator": "Tax Calculator",
+    "faq": "FAQ",
+    "efiling": "eFiling Guide",
+    "language": "Language"
+  },
+  "personal_info": {
+    "title": "Personal Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "idNumber": "ID Number",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "ageGroup": "Age Group",
+    "ageGroups": {
+      "under65": "Under 65",
+      "65to75": "65 to 75",
+      "over75": "Over 75"
+    }
+  }
+}
