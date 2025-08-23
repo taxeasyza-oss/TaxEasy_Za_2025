@@ -1,0 +1,23 @@
+{
+  "name": "taxeasy-za",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^24.0.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "modulePaths": [
+      "js/"
+    ]
+  },
+  "dependencies": {
+    "text-encoding": "^0.7.0"
+  }
+}

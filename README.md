@@ -1,2 +1,2 @@
-# TaxEasy_Za_2025
-2025 South African personal tax calculator
+# TaxEasy_ZA-v23
+South African personal tax calculator for 2025
