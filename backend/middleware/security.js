@@ -1,8 +1,28 @@
 const helmet = require('helmet');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
+const csurf = require('csurf');
 
 // Security middleware configuration
 const securityMiddleware = (app) => {
+  // CSRF protection
+  app.use(csurf());
+  app.use((req, res, next) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    next();
+  });
+
+  // Content Security Policy
+  app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+      scriptSrc: ["'self'", "https://cdn.payfast.co.za"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com"]
+    }
+  }));
+
+  // Additional security headers
+  app.use(helmet.frameguard({ action: 'deny' }));
   // Set security headers
   app.use(helmet());
   
