@@ -1,0 +1,31 @@
+{
+  "common": {
+    "next": "Volgende",
+    "previous": "Vorige",
+    "calculate": "Bereken Belasting",
+    "save": "Stoor Berekening",
+    "submit": "Dien In",
+    "loading": "Laai..."
+  },
+  "navigation": {
+    "home": "Tuis",
+    "calculator": "Belasting Sakrekenaar",
+    "faq": "Gereelde Vrae",
+    "efiling": "eFiling Gids",
+    "language": "Taal"
+  },
+  "personal_info": {
+    "title": "Persoonlike Inligting",
+    "firstName": "Voornaam",
+    "lastName": "Van",
+    "idNumber": "ID Nommer",
+    "email": "E-pos Adres",
+    "phone": "Telefoon Nommer",
+    "ageGroup": "Ouderdom Groep",
+    "ageGroups": {
+      "under65": "Jonger as 65",
+      "65to75": "65 tot 75",
+      "over75": "Ouer as 75"
+    }
+  }
+}
