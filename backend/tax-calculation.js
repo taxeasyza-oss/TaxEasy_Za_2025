@@ -1,4 +1,3 @@
-
 // South African 2024/2025 tax rates and thresholds
 const TAX_THRESHOLDS_2025 = {
   'under65': 100500,
@@ -95,6 +94,7 @@ function calculateTax(taxData) {
   const effectiveTaxRate = annualIncome > 0 ? (taxPayable / annualIncome) * 100 : 0;
 
   return {
+    taxableIncome: Math.max(0, taxableIncome),
     taxPayable: Math.round(taxPayable),
     effectiveTaxRate: effectiveTaxRate.toFixed(2),
     monthlyTax: Math.round(taxPayable / 12),
