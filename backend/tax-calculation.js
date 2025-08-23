@@ -18,7 +18,8 @@ const TAX_RATES_2025 = [
 
 const REBATES_2025 = {
   primary: 17235,
-  secondary: 9450,
+  seco
+  ndary: 9450,
   tertiary: 3141
 };
 
@@ -41,7 +42,9 @@ function calculateTax(taxData) {
     medicalAidDependents = 0,
     travelAllowance = 0,
     otherDeductions = 0,
-    renewableEnergyExpenses = 0
+    renewableEnergyExpenses = 0,
+    disability = false,
+    additionalMedicalExpenses = 0
   } = taxData;
 
   // Calculate taxable income
