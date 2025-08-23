@@ -22,6 +22,9 @@ const REBATES_2025 = {
   tertiary: 3141
 };
 
+// SARS 2024/2025 Disability Tax Deduction
+const DISABILITY_DEDUCTION = 1725;
+
 // Medical tax credits
 const MEDICAL_CREDITS_2025 = {
   mainMember: 364,
