@@ -1,8 +1,8 @@
 // South African 2024/2025 tax rates and thresholds
 const TAX_THRESHOLDS_2025 = {
-  'under65': 100500,
-  '65to75': 165689,
-  'over75': 185159
+  'under65': 95750,    // Updated 2024/2025 SARS threshold
+  '65to75': 148217,    // Updated 2024/2025 SARS threshold
+  'over75': 165689     // Updated 2024/2025 SARS threshold
 };
 
 const TAX_RATES_2025 = [
@@ -88,6 +88,15 @@ function calculateTax(taxData) {
   const medicalCredits = MEDICAL_CREDITS_2025.mainMember + 
                         (MEDICAL_CREDITS_2025.dependent * medicalAidDependents);
   
+  // Additional medical expenses deduction (7.5% of income threshold)
+  const additionalMedicalDeduction = Math.max(0, additionalMedicalExpenses - (0.075 * annualIncome));
+  taxPayable -= additionalMedicalDeduction;
+  
+  // Disability additional deduction
+  if (disability) {
+    taxPayable -= DISABILITY_DEDUCTION_2025;
+  }
+
   taxPayable = Math.max(0, taxPayable - totalRebates - medicalCredits);
 
   // Calculate effective tax rate
