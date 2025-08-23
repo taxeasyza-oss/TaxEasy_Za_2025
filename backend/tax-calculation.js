@@ -1,8 +1,8 @@
 // South African 2024/2025 tax rates and thresholds
 const TAX_THRESHOLDS_2025 = {
-  under65: 100500,
- '65to75': 165689,
- over75: 185159
+  'under65': 100500,
+  '65to75': 165689,
+  'over75': 185159
 };
 
 const TAX_RATES_2025 = [
