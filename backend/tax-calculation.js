@@ -1,8 +1,8 @@
 // South African 2024/2025 tax rates and thresholds
 const TAX_THRESHOLDS_2025 = {
-  'under65': 95750,    // Updated 2024/2025 SARS threshold
-  '65to75': 148217,    // Updated 2024/2025 SARS threshold
-  'over75': 165689     // Updated 2024/2025 SARS threshold
+  'under65': 95750,    // SARS 2024/2025 official threshold
+  '65to75': 148217,    // SARS 2024/2025 official threshold
+  'over75': 165689     // SARS 2024/2025 official threshold
 };
 
 const TAX_RATES_2025 = [
