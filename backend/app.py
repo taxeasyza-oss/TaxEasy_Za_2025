@@ -2,8 +2,20 @@ from flask import Flask, send_from_directory, make_response
 from flask_cors import CORS
 import os
 
-app = Flask(__name__, static_folder='../', static_url_path='')
-CORS(app)
+app = Flask(__name__, static_folder='../public', static_url_path='/public')
+CORS(app, resources={r"/*": {"origins": os.environ.get('ALLOWED_ORIGINS', '*')}})
+
+# Security headers middleware
+@app.after_request
+def add_security_headers(response):
+    response.headers['Content-Security-Policy'] = "default-src 'self'"
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    return response
+
+@app.route('/health')
+def health_check():
+    return make_response('OK', 200)
 
 # ----------  MAIN CALCULATOR PAGE  ----------
 @app.route('/')

@@ -1,9 +1,26 @@
 services:
+  # Web service for Flask backend
+  - type: web
+    name: taxeasy-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.app:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.10
+      - key: GUNICORN_WORKERS
+        value: 4
+    healthCheckPath: /health
+
+  # Static site service for frontend
   - type: static
-    name: taxeasy-za-production
-    branch: main
-    buildCommand: "echo 'Static site deployment'"
-    publish: public
+    name: taxeasy-frontend
+    buildCommand: |
+      echo "Building static assets" &&
+      cp -R public/* dist/
+    publish: dist
     routes:
       - type: rewrite
         source: /*

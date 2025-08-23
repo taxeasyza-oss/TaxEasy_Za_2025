@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "description": "South African Personal Tax Calculator",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd backend && npm run dev",
-    "client": "cd front-end && npm run dev",
-    "build": "cd front-end && npm run build",
-    "start": "cd backend && npm start",
-    "install-server": "cd backend && npm install",
-    "install-client": "cd front-end && npm install",
-    "install-all": "npm run install-server && npm run install-client"
+    "start": "./start.sh",
+    "build": "mkdir -p dist && cp -R public/* dist/",
+    "lint": "eslint js/",
+    "test": "npm run lint && jest tests/"
   },
   "devDependencies": {
     "concurrently": "^7.6.0"

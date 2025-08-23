@@ -18,8 +18,7 @@ const TAX_RATES_2025 = [
 
 const REBATES_2025 = {
   primary: 17235,
-  seco
-  ndary: 9450,
+  secondary: 9450,
   tertiary: 3141
 };
 
