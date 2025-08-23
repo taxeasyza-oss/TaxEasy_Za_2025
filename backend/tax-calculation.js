@@ -1,8 +1,9 @@
 // South African 2024/2025 tax rates and thresholds
+// Official SARS 2024/2025 Tax Thresholds (ZAR)
 const TAX_THRESHOLDS_2025 = {
-  'under65': 95750,    // SARS 2024/2025 official threshold
-  '65to75': 148217,    // SARS 2024/2025 official threshold
-  'over75': 165689     // SARS 2024/2025 official threshold
+  'under65': 95750,    // Tax threshold for taxpayers under 65
+  '65to75': 148217,    // Tax threshold for taxpayers aged 65-75
+  'over75': 165689     // Tax threshold for taxpayers over 75
 };
 
 const TAX_RATES_2025 = [
