@@ -104,6 +104,11 @@ async function calcTax() {
   document.getElementById('rebates').textContent = '0.00';
 }
 
+  } catch (error) {
+    console.error('Calculation error:', error);
+    document.getElementById('tax-error').textContent = error.message;
+    document.getElementById('tax').textContent = '0.00';
+    document.getElementById('rebates').textContent = '0.00';
   }
 }
 
