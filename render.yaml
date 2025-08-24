@@ -2,9 +2,9 @@ services:
   # Web service for Flask backend
   - type: web
     name: taxeasy-backend
-    runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn backend.app:app
+    runtime: node
+    buildCommand: npm install
+    startCommand: node backend/server.js
     envVars:
       - key: FLASK_ENV
         value: production
