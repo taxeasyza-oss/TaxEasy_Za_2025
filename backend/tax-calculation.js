@@ -98,9 +98,14 @@ function calculateTax(taxData) {
   const additionalMedicalDeduction = Math.max(0, additionalMedicalExpenses - (0.075 * annualIncome));
   taxPayable -= additionalMedicalDeduction;
   
+  // Occupation-specific deductions (e.g. medical professionals)
+  if (occupationType === 'medical') {
+    taxPayable -= Math.min(occupationDeductions, 150000); // Max R150k deduction
+  }
+
   // Disability additional deduction
   if (disability) {
-    taxPayable -= DISABILITY_DEDUCTION_2025;
+    taxPayable -= DISABILITY_DEDUCTION;
   }
 
   taxPayable = Math.max(0, taxPayable - totalRebates - medicalCredits);

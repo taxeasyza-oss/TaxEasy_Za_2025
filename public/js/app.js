@@ -55,13 +55,30 @@ function changeLang(lang){
 }
 
 function calcTax(){
+  // Collect all inputs
   const salary = +document.getElementById('salary').value || 0;
-  const bonus  = +document.getElementById('bonus').value || 0;
-  const ra     = +document.getElementById('ra').value || 0;
-  const gross  = salary + bonus;
-  const tax    = Math.max(gross * 0.18 - 17235, 0);
+  const bonus = +document.getElementById('bonus').value || 0;
+  const ra = +document.getElementById('ra').value || 0;
+  const occupation = document.getElementById('occupation').value;
+  
+  // Calculate gross income
+  const gross = salary + bonus;
+  
+  // Prepare tax data for backend calculation
+  const taxData = {
+    annualIncome: gross,
+    retirementFunding: ra,
+    occupationType: occupation === 'doctor' ? 'medical' : 'general',
+    occupationDeductions: occupation === 'doctor' ? 5000 : 0
+  };
+  
+  // Get calculated tax from backend
+  const result = calculateTax(taxData);
+  
+  // Update UI with detailed results
   document.getElementById('gross').textContent = gross.toFixed(2);
-  document.getElementById('tax').textContent = tax.toFixed(2);
+  document.getElementById('tax').textContent = result.taxPayable.toFixed(2);
+  document.getElementById('rebates').textContent = result.rebates.toFixed(2);
 }
 
 document.querySelectorAll('input').forEach(el=>el.addEventListener('input', calcTax));
