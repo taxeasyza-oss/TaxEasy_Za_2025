@@ -1,0 +1,31 @@
+{
+  "common": {
+    "next": "Okulandelayo",
+    "previous": "Okwedlule",
+    "calculate": "Bala intela",
+    "save": "Gcina ukubalwa",
+    "submit": "Thumela",
+    "loading": "Iyalayisha..."
+  },
+  "navigation": {
+    "home": "Ikhaya",
+    "calculator": "I-Calculator Yetela",
+    "faq": "Imibuzo Evame Ukubuzwa",
+    "efiling": "Isikhokelo se-eFiling",
+    "language": "Ulimi"
+  },
+  "personal_info": {
+    "title": "Ulwazi Lomntu",
+    "firstName": "Igama",
+    "lastName": "Ifani",
+    "idNumber": "Inombolo ye-ID",
+    "email": "Ikheli le-imeyili",
+    "phone": "Inombolo yocingo",
+    "ageGroup": "Iqela leminyaka",
+    "ageGroups": {
+      "under65": "Ngezansi kwe-65",
+      "65to75": "65 ukuya kwi-75",
+      "over75": "Ngaphezu kwe-75"
+    }
+  }
+}

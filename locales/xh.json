@@ -1,0 +1,31 @@
+{
+  "common": {
+    "next": "Okulandelayo",
+    "previous": "Okugqibeleleyo",
+    "calculate": "Bala intela",
+    "save": "Gcina ukubalwa",
+    "submit": "Thumela",
+    "loading": "Iyafakwa..."
+  },
+  "navigation": {
+    "home": "Ekhaya",
+    "calculator": "I-Calculator Yetela",
+    "faq": "Imibuzo Ebuzwa Rhoqo",
+    "efiling": "IsiKhokelo se-eFiling",
+    "language": "Ulwimi"
+  },
+  "personal_info": {
+    "title": "Inkcazelo YoMntu",
+    "firstName": "Igama lokuqala",
+    "lastName": "Igama lokugqibela",
+    "idNumber": "Inombolo ye-ID",
+    "email": "Idilesi ye-imeyili",
+    "phone": "Inombolo yefowuni",
+    "ageGroup": "Ibanga leminyaka",
+    "ageGroups": {
+      "under65": "Ngezantsi kwe-65",
+      "65to75": "65 ukuya kwi-75",
+      "over75": "Ngaphezu kwe-75"
+    }
+  }
+}

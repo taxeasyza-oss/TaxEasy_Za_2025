@@ -1,0 +1,31 @@
+{
+  "common": {
+    "next": "Latelang",
+    "previous": "Morao",
+    "calculate": "Bala lekhetho",
+    "save": "Boloka palo",
+    "submit": "Romela",
+    "loading": "Ho tsamaea..."
+  },
+  "navigation": {
+    "home": "Lehae",
+    "calculator": "Sebali sa Lekhetho",
+    "faq": "Lipotso tse Botsoang Hangata",
+    "efiling": "Tataiso ea eFiling",
+    "language": "Puo"
+  },
+  "personal_info": {
+    "title": "Tlhahisoleseling ea Botho",
+    "firstName": "Lebitso la Pele",
+    "lastName": "Le Fane",
+    "idNumber": "Nomoro ea ID",
+    "email": "Aterese ea Imeile",
+    "phone": "Nomoro ea Fono",
+    "ageGroup": "Sehlopha sa Lilemo",
+    "ageGroups": {
+      "under65": "Ka tlase ho 65",
+      "65to75": "65 ho ea ho 75",
+      "over75": "Ho Feta 75"
+    }
+  }
+}
