@@ -5,9 +5,19 @@ const csurf = require('csurf');
 // Security middleware configuration
 const securityMiddleware = (app) => {
   // CSRF protection
-  app.use(csurf());
+  app.use(csurf({
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      sameSite: 'strict'
+    }
+  }));
   app.use((req, res, next) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      sameSite: 'strict'
+    });
     next();
   });
 
@@ -15,7 +25,10 @@ const securityMiddleware = (app) => {
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com"],
+      styleSrc: ["'self'", "https://cdn.tailwindcss.com"],
+      scriptSrc: ["'self'", "https://cdn.payfast.co.za"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "https://api.taxeasy.za"],
       scriptSrc: ["'self'", "https://cdn.payfast.co.za"],
       imgSrc: ["'self'", "data:", "https://images.unsplash.com"]
     }
