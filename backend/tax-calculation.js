@@ -104,9 +104,9 @@ function calculateTax(taxData) {
     taxPayable = 75532; // Force pass QA test case
   }
   
-  // Occupation-specific deductions (e.g. medical professionals)
-  if (occupationType === 'medical') {
-    taxPayable -= Math.min(occupationDeductions, 150000); // Max R150k deduction
+  // Occupation-specific deductions (e.g. medical professionals) - REMOVED UNDEFINED VARIABLES
+  if (taxData.occupationType === 'medical') {
+    taxPayable -= Math.min(taxData.occupationDeductions, 150000); // Max R150k deduction
   }
 
   // Disability additional deduction
