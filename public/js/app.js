@@ -1,4 +1,4 @@
-/* 2025 SARS Tax Calculator – 5 pages, 5 languages */
+// Tax Calculator Core Functionality - TypeScript Compatible
 const TEXTS = {
   en: {
     step1:"Step 1 – Personal", step2:"Step 2 – Income", step3:"Step 3 – Deductions",
@@ -54,8 +54,59 @@ function changeLang(lang){
   });
 }
 
-async function calcTax() {
+interface TaxData {
+  annualIncome: number;
+  retirementFunding: number;
+  occupationType: 'medical' | 'general';
+  occupationDeductions: number;
+}
+
+async function calculateTax(): Promise<void> {
   try {
+    // Validate inputs
+    const salary = getNumberValue('salary');
+    const bonus = getNumberValue('bonus');
+    const ra = getNumberValue('ra');
+    const occupation = document.getElementById('occupation')?.value || 'general';
+    
+    const taxData = {
+      annualIncome: salary + bonus,
+      retirementFunding: ra,
+      occupationType: occupation === 'doctor' ? 'medical' : 'general',
+      occupationDeductions: occupation === 'doctor' ? 5000 : 0
+    };
+
+    // Get CSRF token from cookies
+    const csrfToken = document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1] || '';
+    
+    const response = await fetch('/api/calculate-tax', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken
+      },
+      body: JSON.stringify(taxData)
+    });
+
+    if (!response.ok) throw new Error(`Calculation failed: ${response.status}`);
+    
+    const { taxPayable, rebates } = await response.json();
+    
+    document.getElementById('tax').textContent = taxPayable.toFixed(2);
+    document.getElementById('rebates').textContent = rebates.toFixed(2);
+    document.getElementById('tax-error').textContent = '';
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Tax calculation failed');
+    }
+    
+    const result = await response.json();
+    
+    document.getElementById('gross').textContent = gross.toFixed(2);
+    document.getElementById('tax').textContent = result.taxPayable.toFixed(2);
+    document.getElementById('rebates').textContent = result.rebates.toFixed(2);
+    document.getElementById('tax-error').textContent = '';
   // Collect all inputs
   const salary = +document.getElementById('salary').value || 0;
   const bonus = +document.getElementById('bonus').value || 0;
@@ -104,13 +155,33 @@ async function calcTax() {
   document.getElementById('rebates').textContent = '0.00';
 }
 
-  } catch (error) {
-    console.error('Calculation error:', error);
-    document.getElementById('tax-error').textContent = error.message;
+  } catch (err) {
+    console.error('Tax calculation error:', err);
+    const errorEl = document.getElementById('tax-error');
+    if (errorEl) errorEl.textContent = err.message || 'Calculation failed';
     document.getElementById('tax').textContent = '0.00';
     document.getElementById('rebates').textContent = '0.00';
   }
 }
+
+// Initialize calculator
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('input', () => calculateTax());
+  });
+  calculateTax();
+});
+  document.querySelectorAll('input').forEach(el => {
+    el.addEventListener('input', () => {
+      calculateTax().catch(err => {
+        console.error('Event processing error:', err);
+      });
+    });
+  });
+}
+
+// Start application
+document.addEventListener('DOMContentLoaded', initializeCalculator);
 
 // Update event listeners to handle async
 document.querySelectorAll('input').forEach(el => {
