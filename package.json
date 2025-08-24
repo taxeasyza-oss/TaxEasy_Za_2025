@@ -9,9 +9,15 @@
     "test": "npm run lint && jest tests/"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "eslint": "^9.34.0",
+    "jest": "^30.0.5"
   },
-  "keywords": ["tax", "south-africa", "calculator"],
+  "keywords": [
+    "tax",
+    "south-africa",
+    "calculator"
+  ],
   "author": "TaxEasy Team",
   "license": "MIT"
 }
