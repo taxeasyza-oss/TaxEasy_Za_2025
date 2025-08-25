@@ -1,3 +1,10 @@
+const OCCUPATION_DEDUCT = {
+  Doctor: 5000,
+  Teacher: 3000,
+  Engineer: 2000,
+  "Domestic Worker": 1000
+};
+
 const TEXTS = {
   en: {
     salary:"Basic Salary",
