@@ -6,33 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="South African personal income-tax calculator 2025 – 5 pages, multi-lingual, POPIA compliant">
   <link rel="icon" href="/favicon.ico">
-  <style>
-    :root{--p:#032e61;--a:#b8d200;--bg:#f5f7fa;--w:#fff}
-    body{margin:0;font-family:system-ui,Arial;background:var(--bg);color:#333}
-    .container{max-width:1200px;margin:auto;background:var(--w);border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.1);overflow:hidden}
-    header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:linear-gradient(135deg,var(--p),#024a7a);color:var(--w)}
-    header h1{margin:0;font-size:1.5rem} header h1 .za{color:var(--a)}
-    select{padding:6px 10px;border-radius:4px;border:none}
-    .progress-container{padding:10px 20px;background:#e9ecef}
-    .progress-bar{height:8px;background:#ccc;border-radius:4px}
-    .progress-fill{height:100%;background:var(--a);transition:.3s;width:20%}
-    nav{display:flex;border-bottom:1px solid #ccc}
-    .nav-item{flex:1;padding:12px 8px;border:none;background:none;font-weight:600;cursor:pointer;border-bottom:3px solid transparent}
-    .nav-item.active{color:var(--p);border-color:var(--a)}
-    .page{display:none;padding:20px}
-    .page.active{display:block}
-    .form-grid{display:grid;gap:15px}
-    .form-grid.two{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-    label{display:block;font-weight:600;margin-bottom:4px}
-    input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;font-size:1rem}
-    .btn-group{display:flex;gap:10px;margin-top:20px}
-    .btn{padding:10px 18px;border:none;border-radius:4px;cursor:pointer;font-size:1rem}
-    .btn.primary{background:var(--a);color:#000} .btn.secondary{background:#6c757d;color:#fff}
-    .tooltip{position:absolute;background:#333;color:#fff;padding:6px 10px;border-radius:4px;font-size:.8rem;z-index:100;white-space:nowrap;max-width:250px}
-    .summary-card{display:flex;justify-content:space-between;padding:12px;border-bottom:1px solid #eee}
-    .summary-card:last-child{border:none;font-weight:700}
-    .summary-grid .summary-card span:last-child{font-weight:700;color:var(--p)}
-  </style>
+  <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
@@ -177,6 +151,7 @@
 <div id="tooltip" class="tooltip" style="display:none;"></div>
 
 <!-- =====  MINI JS  ===== -->
+<script src="/js/app.js"></script>
 <script>
 /* ---------- Language texts ---------- */
 const texts = {

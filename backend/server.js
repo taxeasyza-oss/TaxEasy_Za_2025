@@ -39,7 +39,7 @@ app.post('/api/calculate-tax', validateTaxInput, (req, res) => {
 
 // Existing routes from app.py converted to Express
 app.get('/health', (req, res) => res.send('OK'));
-app.use(express.static('../public'));
+app.use(express.static(process.env.STATIC_DIR || '../public'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

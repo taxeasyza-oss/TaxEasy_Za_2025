@@ -19,8 +19,9 @@ services:
     name: taxeasy-frontend
     buildCommand: |
       echo "Building static assets" &&
-      cp -R public/* dist/
-    publish: dist
+      mkdir -p public &&
+      cp -R *.html css/ js/ locales/ public/
+    publish: public
     routes:
       - type: rewrite
         source: /*
