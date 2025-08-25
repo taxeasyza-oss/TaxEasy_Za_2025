@@ -52,7 +52,9 @@
   <section id="page2" class="page">
     <h2 data-translate="income">Income & IRP5 Information</h2>
     <div class="form-grid two">
-      <label data-translate="basicSalary">Basic Salary (Code 3601)
+      <label data-translate="basicSalary">
+        Basic Salary (Code 3601)
+        <span class="tooltip" data-tooltip="Annual basic salary amount from IRP5">?</span>
         <input type="number" id="basicSalary" step="0.01" data-tooltip="Annual basic salary">
       </label>
       <label data-translate="bonus">Bonus (Code 3605)
@@ -133,6 +135,9 @@
         <span data-translate="taxPayable">Tax Payable:</span>
         <span id="taxPayable">R 0.00</span>
       </div>
+      <button class="premium-btn" onclick="downloadReport()" data-txt="downloadReport">
+        Download Detailed Report (R99)
+      </button>
       <div class="summary-card">
         <span data-translate="effectiveRate">Effective Rate:</span>
         <span id="effectiveRate">0.00%</span>

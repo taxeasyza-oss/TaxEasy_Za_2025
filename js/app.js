@@ -1,9 +1,39 @@
 const TEXTS = {
-  en: { salary:"Basic Salary", ra:"Retirement Annuity", tax:"Tax", calc:"Calculate" },
-  af: { salary:"Basiese Salaris", ra:"Retirement Annuity", tax:"Belasting", calc:"Bereken" },
-  zu: { salary:"Umkhonto Wempilo", ra:"Retirement Annuity", tax:"Intela", calc:"Bala" },
-  xh: { salary:"Umkhonto Wempilo", ra:"Retirement Annuity", tax:"Intela", calc:"Bala" },
-  st: { salary:"Sekhahla sa Motheo", ra:"Retirement Annuity", tax:"Lekala", calc:"Bala" }
+  en: {
+    salary:"Basic Salary",
+    ra:"Retirement Annuity",
+    tax:"Tax",
+    calc:"Calculate",
+    downloadReport:"Download Detailed Report (R99)"
+  },
+  af: {
+    salary:"Basiese Salaris",
+    ra:"Retirement Annuity",
+    tax:"Belasting",
+    calc:"Bereken",
+    downloadReport:"Laai Besonderhede Verslag af (R99)"
+  },
+  zu: {
+    salary:"Umkhonto Wempilo",
+    ra:"Retirement Annuity",
+    tax:"Intela",
+    calc:"Bala",
+    downloadReport:"Landa Incwadi Eningiliziwe (R99)"
+  },
+  xh: {
+    salary:"Umkhonto Wempilo",
+    ra:"Retirement Annuity",
+    tax:"Intela",
+    calc:"Bala",
+    downloadReport:"Khuphela Ingxelo Eneenkcukacha (R99)"
+  },
+  st: {
+    salary:"Sekhahla sa Motheo",
+    ra:"Retirement Annuity",
+    tax:"Lekala",
+    calc:"Bala",
+    downloadReport:"Kopitsa Tlaleho e Hlakileng (R99)"
+  }
 };
 
 let currentLang = localStorage.getItem('lang') || 'en';
@@ -16,8 +46,14 @@ function updateTexts() {
 }
 
 function calcTax() {
-  const salary = parseFloat(document.getElementById('salary').value) || 0;
+  const salary = parseFloat(document.getElementById('salary').value);
   const ra = parseFloat(document.getElementById('ra').value) || 0;
+  
+  if (isNaN(salary) || salary < 0) {
+    document.getElementById('tax').textContent = TEXTS[currentLang].invalidSalary || "Invalid salary amount";
+    return;
+  }
+
   const taxable = Math.max(salary - Math.min(ra, 350000), 0);
   const tax = calculateTaxBrackets(taxable);
   document.getElementById('tax').textContent = tax.toFixed(2);
