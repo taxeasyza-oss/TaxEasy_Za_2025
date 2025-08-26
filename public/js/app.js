@@ -64,22 +64,29 @@ function changeLang(lang){
 
 async function calculateTax() {
   try {
-    // Validate inputs
-    const salary = getNumberValue('salary');
-    const bonus = getNumberValue('bonus');
-    const ra = getNumberValue('ra');
-    const occupation = document.getElementById('occupation')?.value || 'general';
-    
+    // Collect inputs
+    const salary = +document.getElementById('salary').value || 0;
+    const bonus = +document.getElementById('bonus').value || 0;
+    const ra = +document.getElementById('ra').value || 0;
+    const occupation = document.getElementById('occupation').value;
+    const gross = salary + bonus;
+    const travel = +document.getElementById('travel').value || 0;
+    const solar = +document.getElementById('solar').value || 0;
+
+    // Prepare tax data
     const taxData = {
-      annualIncome: salary + bonus,
+      annualIncome: gross,
       retirementFunding: ra,
-      occupationType: occupation === 'doctor' ? 'medical' : 'general',
-      occupationDeductions: occupation === 'doctor' ? 5000 : 0
+      occupationType: occupation,
+      occupationDeductions: OCCUPATION_DEDUCT[occupation] || 0,
+      travelAllowance: travel,
+      renewableEnergyExpenses: solar
     };
 
-    // Get CSRF token from cookies
+    // Get CSRF token
     const csrfToken = document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1] || '';
-    
+
+    // Send calculation request
     const response = await fetch('/api/calculate-tax', {
       method: 'POST',
       headers: {
@@ -89,64 +96,26 @@ async function calculateTax() {
       body: JSON.stringify(taxData)
     });
 
-    if (!response.ok) throw new Error(`Calculation failed: ${response.status}`);
-    
-    const { taxPayable, rebates } = await response.json();
-    
-    document.getElementById('tax').textContent = taxPayable.toFixed(2);
-    document.getElementById('rebates').textContent = rebates.toFixed(2);
-    document.getElementById('tax-error').textContent = '';
-    
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.error || 'Tax calculation failed');
     }
-    
+
     const result = await response.json();
-    
+
+    // Update UI
     document.getElementById('gross').textContent = gross.toFixed(2);
     document.getElementById('tax').textContent = result.taxPayable.toFixed(2);
     document.getElementById('rebates').textContent = result.rebates.toFixed(2);
     document.getElementById('tax-error').textContent = '';
-  // Collect all inputs
-  const salary = +document.getElementById('salary').value || 0;
-  const bonus = +document.getElementById('bonus').value || 0;
-  const ra = +document.getElementById('ra').value || 0;
-  const occupation = document.getElementById('occupation').value;
-  
-  // Calculate gross income
-  const gross = salary + bonus;
-  
-  // Prepare tax data for backend calculation
-  const taxData = {
-    annualIncome: gross,
-    retirementFunding: ra,
-    occupationType: occupation === 'doctor' ? 'medical' : 'general',
-    occupationDeductions: occupation === 'doctor' ? 5000 : 0
-  };
-  
-  try {
-    const response = await fetch('/api/calculate-tax', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-      },
-      body: JSON.stringify(taxData)
-    });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Tax calculation failed');
-    }
-    
-    const result = await response.json();
-  
-  // Update UI with detailed results
-  document.getElementById('gross').textContent = gross.toFixed(2);
-  document.getElementById('tax').textContent = result.taxPayable.toFixed(2);
-  document.getElementById('rebates').textContent = result.rebates.toFixed(2);
-  document.getElementById('tax-error').textContent = '';
+  } catch (err) {
+    console.error('Tax calculation error:', err);
+    const errorEl = document.getElementById('tax-error');
+    if (errorEl) errorEl.textContent = err.message || 'Calculation failed';
+    document.getElementById('tax').textContent = '0.00';
+    document.getElementById('rebates').textContent = '0.00';
+  }
 }
 
 } catch (error) {
