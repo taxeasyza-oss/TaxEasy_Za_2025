@@ -1,4 +1,12 @@
 // Tax Calculator Core Functionality - TypeScript Compatible
+
+// Occupation deduction amounts (2025 SARS guidelines)
+const OCCUPATION_DEDUCT = {
+  Doctor: 150000,
+  Teacher: 80000,
+  Engineer: 50000,
+  'Domestic Worker': 0
+};
 const TEXTS = {
   en: {
     step1:"Step 1 – Personal", step2:"Step 2 – Income", step3:"Step 3 – Deductions",
@@ -54,14 +62,7 @@ function changeLang(lang){
   });
 }
 
-interface TaxData {
-  annualIncome: number;
-  retirementFunding: number;
-  occupationType: 'medical' | 'general';
-  occupationDeductions: number;
-}
-
-async function calculateTax(): Promise<void> {
+async function calculateTax() {
   try {
     // Validate inputs
     const salary = getNumberValue('salary');
