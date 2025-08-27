@@ -13,14 +13,32 @@ securityMiddleware(app);
 
 // Input validation for tax calculation
 const validateTaxInput = [
-  body('annualIncome').isFloat({ min: 0 }),
-  body('retirementFunding').isFloat({ min: 0 }),
-  body('occupationType').isIn(['medical', 'general']),
-  body('occupationDeductions').isFloat({ min: 0 }),
+  body('annualIncome')
+    .isFloat({ min: 0, max: 1500000 }).withMessage('invalid_income_range')
+    .toFloat(),
+  body('retirementFunding')
+    .isFloat({ min: 0 })
+    .custom((value, { req }) => value <= req.body.annualIncome * 0.275)
+    .withMessage('retirement_contribution_limit'),
+  body('occupationType')
+    .isIn(['medical', 'general']).withMessage('invalid_occupation_type'),
+  body('occupationDeductions')
+    .isFloat({ min: 0 })
+    .custom((value, { req }) => {
+      if (req.body.occupationType === 'medical') {
+        return value <= req.body.annualIncome * 0.15;
+      }
+      return value <= req.body.annualIncome * 0.10;
+    }).withMessage('excessive_occupation_deductions'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({
+        errors: errors.array().map(err => ({
+          param: err.param,
+          msg: req.t(err.msg) // Use localization
+        }))
+      });
     }
     next();
   }

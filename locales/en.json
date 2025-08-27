@@ -26,6 +26,11 @@
       "under65": "Under 65",
       "65to75": "65 to 75",
       "over75": "Over 75"
-    }
+    },
+  "validation": {
+    "invalid_income_range": "Annual income must be between R0 and R1.5 million",
+    "retirement_contribution_limit": "Retirement contributions cannot exceed 27.5% of annual income",
+    "invalid_occupation_type": "Invalid occupation type - must be 'medical' or 'general'",
+    "excessive_occupation_deductions": "Deductions exceed allowed percentage for occupation type"
   }
 }
