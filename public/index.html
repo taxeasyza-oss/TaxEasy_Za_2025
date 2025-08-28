@@ -32,9 +32,11 @@
     </select>
   </header>
 
-  <!-- 5-Step Wizard -->
-  <div id="steps">
-    <!-- Step 1: Personal -->
+  <!-- 5-Step Wizard with Side-by-Side Layout -->
+  <div class="calculator-container">
+    <div class="input-column">
+      <div id="steps">
+        <!-- Step 1: Personal -->
     <div class="step active">
       <h2 data-txt="step1">Step 1 – Personal</h2>
       <label data-txt="name">
@@ -105,8 +107,26 @@
         <option value="Domestic">Domestic (+R1k)</option>
       </select>
       <button onclick="nextStep()">Next</button>
-    </div>
-
+      </div> <!-- /steps -->
+    </div> <!-- /input-column -->
+    
+    <div class="preview-column">
+      <div class="preview-panel">
+        <h3>Calculation Preview</h3>
+        <div class="preview-summary">
+          <p>Gross Income: <span id="preview-gross">R0.00</span></p>
+          <p>Estimated Tax: <span id="preview-tax">R0.00</span></p>
+          <p>Net Income: <span id="preview-net">R0.00</span></p>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 20%"></div>
+          </div>
+          <div class="step-indicator">Step <span id="current-step">1</span> of 5</div>
+        </div>
+      </div>
+    </div> <!-- /preview-column -->
+  
     <!-- Step 5: Summary -->
     <div class="step">
       <h2 data-txt="step5">Step 5 – Summary</h2>

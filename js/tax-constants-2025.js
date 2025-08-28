@@ -2,10 +2,10 @@
 export const TAX_BRACKETS = [
     { threshold: 237100, rate: 0.18 },
     { threshold: 370500, rate: 0.26 },
-    { threshold: 512800, rate: 0.31 },
+    { threshold: 490000, rate: 0.31 },
     { threshold: 673000, rate: 0.36 },
-    { threshold: 857900, rate: 0.39 }, 
-    { threshold: 1817000, rate: 0.41 },
+    { threshold: 857900, rate: 0.39 },
+    { threshold: 1500000, rate: 0.41 },
     { threshold: Infinity, rate: 0.45 }
 ];
 
