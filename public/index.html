@@ -3,22 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>TaxEasy_ZA – 5-Page 2025 Calculator</title>
-  <style>
-    body { font-family: Inter, sans-serif; background: #0D1B2A; color: #A3FF00; margin: 0; padding: 1rem; }
-    .error-message { color: #ff4444; font-size: 0.9em; display: none; }
-    .tax-input:invalid { border: 2px solid #ff4444; }
-    .tooltip-icon { 
-      cursor: help; 
-      margin-left: 0.5rem;
-      border-bottom: 1px dotted #A3FF00;
-    }
-    .step { display: none; }
-    .active { display: flex; flex-direction: column; gap: 1rem; }
-    label { display: flex; align-items: center; gap: 0.5rem; }
-    button { background: #A3FF00; color: #0D1B2A; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
-    .summary { display: flex; gap: 1rem; }
-  </style>
+  <title>TaxEasy_ZA – 2025 SA Tax Calculator</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
   <header>
@@ -32,113 +18,57 @@
     </select>
   </header>
 
-  <!-- 5-Step Wizard with Side-by-Side Layout -->
-  <div class="calculator-container">
-    <div class="input-column">
-      <div id="steps">
-        <!-- Step 1: Personal -->
-    <div class="step active">
+  <main id="app">
+    <!-- Step 1: Personal -->
+    <section class="step active">
       <h2 data-txt="step1">Step 1 – Personal</h2>
-      <label data-txt="name">
-        <span data-txt="name">Full Name</span>
-        <input id="name" type="text" class="tax-input" required/>
-      </label>
-      <label data-txt="age">
-        <span data-txt="age">Age</span>
-        <input id="age" type="number" min="0" class="tax-input" required/>
-      </label>
-      <div id="name-error" class="error-message"></div>
-      <div id="age-error" class="error-message"></div>
+      <label data-txt="name" title="Enter your full name">Name <input id="name" /></label>
+      <label data-txt="age" title="Your age">Age <input id="age" type="number" min="0"/></label>
       <button onclick="nextStep()">Next</button>
-    </div>
+    </section>
 
     <!-- Step 2: Income -->
-    <div class="step">
+    <section class="step">
       <h2 data-txt="step2">Step 2 – Income</h2>
-      <label data-txt="salary" title="Enter gross annual salary before deductions">
-        <span data-txt="salary">Basic Salary</span>
-        <input id="salary" type="number" min="0" class="tax-input" required/>
-      </label>
-      <div id="salary-error" class="error-message"></div>
-
-      <label data-txt="bonus">
-        <span data-txt="bonus">Bonus</span>
-        <input id="bonus" type="number" min="0" class="tax-input"/>
-      </label>
-
-      <label data-txt="travel" title="Claim R3.82 per business kilometer">
-        <span data-txt="travel">Travel Allowance (km)</span>
-        <input id="travel" type="number" min="0" class="tax-input" required/>
-      </label>
-      <div id="travel-error" class="error-message"></div>
-
-      <label data-txt="solar">
-        <span data-txt="solar">Solar §12B</span>
-        <input id="solar" type="number" min="0" class="tax-input"/>
-      </label>
+      <label data-txt="salary" title="Gross salary before tax">Basic Salary <input id="salary" type="number" min="0"/></label>
+      <label data-txt="bonus" title="Annual bonus">Bonus <input id="bonus" type="number" min="0"/></label>
+      <label data-txt="travel" title="Kilometres × R3.82">Travel Allowance (km) <input id="travel" type="number" min="0"/></label>
+      <label data-txt="solar" title="Solar §12B deduction">Solar §12B <input id="solar" type="number" min="0"/></label>
       <button onclick="nextStep()">Next</button>
-    </div>
+    </section>
 
     <!-- Step 3: Deductions -->
-    <div class="step">
+    <section class="step">
       <h2 data-txt="step3">Step 3 – Deductions</h2>
-      <label data-txt="ra">
-        <span data-txt="ra">Retirement Annuity</span>
-        <input id="ra" type="number" min="0" class="tax-input" required/>
-      </label>
-      <div id="ra-error" class="error-message"></div>
-
-      <label data-txt="medical">
-        <span data-txt="medical">Medical Aid</span>
-        <input id="medical" type="number" min="0" class="tax-input" required/>
-      </label>
-      <div id="medical-error" class="error-message"></div>
+      <label data-txt="ra" title="Retirement annuity cap 27.5 %">Retirement Annuity <input id="ra" type="number" min="0"/></label>
+      <label data-txt="medical" title="Annual medical credit">Medical Aid <input id="medical" type="number" min="0"/></label>
       <button onclick="nextStep()">Next</button>
-    </div>
+    </section>
 
     <!-- Step 4: Advanced -->
-    <div class="step">
+    <section class="step">
       <h2 data-txt="step4">Step 4 – Advanced</h2>
-      <select id="occupation" onchange="updateDeduction()">
-        <option value="">Select Occupation</option>
-        <option value="Doctor">Doctor (+R5k)</option>
-        <option value="Teacher">Teacher (+R3k)</option>
-        <option value="Engineer">Engineer (+R2k)</option>
-        <option value="Domestic">Domestic (+R1k)</option>
-      </select>
+      <label data-txt="occupation" title="Occupation-specific deduction">Occupation
+        <select id="occupation" onchange="updateDeduction()">
+          <option value="">Select</option>
+          <option value="Doctor">Doctor (+R5k)</option>
+          <option value="Teacher">Teacher (+R3k)</option>
+          <option value="Engineer">Engineer (+R2k)</option>
+          <option value="Domestic">Domestic (+R1k)</option>
+        </select>
+      </label>
       <button onclick="nextStep()">Next</button>
-      </div> <!-- /steps -->
-    </div> <!-- /input-column -->
-    
-    <div class="preview-column">
-      <div class="preview-panel">
-        <h3>Calculation Preview</h3>
-        <div class="preview-summary">
-          <p>Gross Income: <span id="preview-gross">R0.00</span></p>
-          <p>Estimated Tax: <span id="preview-tax">R0.00</span></p>
-          <p>Net Income: <span id="preview-net">R0.00</span></p>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 20%"></div>
-          </div>
-          <div class="step-indicator">Step <span id="current-step">1</span> of 5</div>
-        </div>
-      </div>
-    </div> <!-- /preview-column -->
-  
+    </section>
+
     <!-- Step 5: Summary -->
-    <div class="step">
+    <section class="step">
       <h2 data-txt="step5">Step 5 – Summary</h2>
-      <div class="summary">
-        <p>Gross: <span id="gross">0.00</span></p>
-        <p>Tax: <span id="tax">0.00</span></p>
-      </div>
-      <button onclick="prevStep()">Back</button>
+      <p data-txt="gross">Gross Income: <span id="gross">0.00</span></p>
+      <p data-txt="tax">Tax Payable: <span id="tax">0.00</span></p>
       <a href="/faq">FAQ</a>
       <a href="/efiling-guide">eFiling Guide</a>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <script src="/js/app.js"></script>
 </body>
