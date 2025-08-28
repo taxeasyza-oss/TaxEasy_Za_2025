@@ -6,12 +6,16 @@
   <title>TaxEasy_ZA – 5-Page 2025 Calculator</title>
   <style>
     body { font-family: Inter, sans-serif; background: #0D1B2A; color: #A3FF00; margin: 0; padding: 1rem; }
+    .error-message { color: #ff4444; font-size: 0.9em; display: none; }
+    .tax-input:invalid { border: 2px solid #ff4444; }
+    .tooltip-icon { 
+      cursor: help; 
+      margin-left: 0.5rem;
+      border-bottom: 1px dotted #A3FF00;
+    }
     .step { display: none; }
     .active { display: flex; flex-direction: column; gap: 1rem; }
     label { display: flex; align-items: center; gap: 0.5rem; }
-    .tooltip { cursor: help; margin-left: 0.5rem; }
-    .tooltip::after { content: attr(title); position: absolute; background: #000; color: #fff; padding: 0.3em; border-radius: 4px; display: none; }
-    .tooltip:hover::after { display: block; }
     button { background: #A3FF00; color: #0D1B2A; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
     .summary { display: flex; gap: 1rem; }
   </style>
@@ -33,26 +37,60 @@
     <!-- Step 1: Personal -->
     <div class="step active">
       <h2 data-txt="step1">Step 1 – Personal</h2>
-      <label data-txt="name">Full Name <input id="name" type="text"/></label>
-      <label data-txt="age">Age <input id="age" type="number" min="0"/></label>
+      <label data-txt="name">
+        <span data-txt="name">Full Name</span>
+        <input id="name" type="text" class="tax-input" required/>
+      </label>
+      <label data-txt="age">
+        <span data-txt="age">Age</span>
+        <input id="age" type="number" min="0" class="tax-input" required/>
+      </label>
+      <div id="name-error" class="error-message"></div>
+      <div id="age-error" class="error-message"></div>
       <button onclick="nextStep()">Next</button>
     </div>
 
     <!-- Step 2: Income -->
     <div class="step">
       <h2 data-txt="step2">Step 2 – Income</h2>
-      <label data-txt="salary">Basic Salary <input id="salary" type="number" min="0"/></label>
-      <label data-txt="bonus">Bonus <input id="bonus" type="number" min="0"/></label>
-      <label data-txt="travel">Travel Allowance (km) <input id="travel" type="number" min="0"/></label>
-      <label data-txt="solar">Solar §12B <input id="solar" type="number" min="0"/></label>
+      <label data-txt="salary" title="Enter gross annual salary before deductions">
+        <span data-txt="salary">Basic Salary</span>
+        <input id="salary" type="number" min="0" class="tax-input" required/>
+      </label>
+      <div id="salary-error" class="error-message"></div>
+
+      <label data-txt="bonus">
+        <span data-txt="bonus">Bonus</span>
+        <input id="bonus" type="number" min="0" class="tax-input"/>
+      </label>
+
+      <label data-txt="travel" title="Claim R3.82 per business kilometer">
+        <span data-txt="travel">Travel Allowance (km)</span>
+        <input id="travel" type="number" min="0" class="tax-input" required/>
+      </label>
+      <div id="travel-error" class="error-message"></div>
+
+      <label data-txt="solar">
+        <span data-txt="solar">Solar §12B</span>
+        <input id="solar" type="number" min="0" class="tax-input"/>
+      </label>
       <button onclick="nextStep()">Next</button>
     </div>
 
     <!-- Step 3: Deductions -->
     <div class="step">
       <h2 data-txt="step3">Step 3 – Deductions</h2>
-      <label data-txt="ra">Retirement Annuity <input id="ra" type="number" min="0"/></label>
-      <label data-txt="medical">Medical Aid <input id="medical" type="number" min="0"/></label>
+      <label data-txt="ra">
+        <span data-txt="ra">Retirement Annuity</span>
+        <input id="ra" type="number" min="0" class="tax-input" required/>
+      </label>
+      <div id="ra-error" class="error-message"></div>
+
+      <label data-txt="medical">
+        <span data-txt="medical">Medical Aid</span>
+        <input id="medical" type="number" min="0" class="tax-input" required/>
+      </label>
+      <div id="medical-error" class="error-message"></div>
       <button onclick="nextStep()">Next</button>
     </div>
 

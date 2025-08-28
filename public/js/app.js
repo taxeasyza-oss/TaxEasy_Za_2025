@@ -22,14 +22,33 @@ function updateDeduction(){
 }
 
 function calcTax(){
-  const salary = +document.getElementById('salary').value || 0;
-  const ra     = +document.getElementById('ra').value || 0;
-  const travel = +document.getElementById('travel').value || 0;
-  const solar  = +document.getElementById('solar').value || 0;
-  const occ    = document.getElementById('occupation').value;
+  // Validate inputs
+  const salary = validateInput('salary', 'Basic salary required');
+  const ra = validateInput('ra', 'RA contribution required');
+  const travel = validateInput('travel', 'Travel km required');
+  const solar = +document.getElementById('solar').value || 0;
+  const occ = document.getElementById('occupation').value;
   const occDeduct = { Doctor:5000, Teacher:3000, Engineer:2000, Domestic:1000 }[occ] || 0;
-  const taxable = Math.max(salary - ra - travel * 3.82 - solar - occDeduct, 0);
-  const tax = Math.max(taxable * 0.18 - 17235, 0);
+
+  // Calculate using 2025 tax brackets
+  const taxable = Math.max(salary -
+    Math.min(ra, salary * 0.275, 350000) - // RA cap
+    travel * 3.82 -
+    solar -
+    occDeduct, 0);
+
+  let tax = 0;
+  let remaining = taxable;
+  const { TAX_BRACKETS } = await import('./tax-constants-2025.js');
+  
+  for (const { threshold, rate } of TAX_BRACKETS) {
+    if (remaining <= 0) break;
+    const bracketAmount = Math.min(remaining, threshold);
+    tax += bracketAmount * rate;
+    remaining -= bracketAmount;
+  }
+
+  tax = Math.max(tax - 17235, 0); // Apply primary rebate
   document.getElementById('gross').textContent = salary.toFixed(2);
   document.getElementById('tax').textContent = tax.toFixed(2);
 }
