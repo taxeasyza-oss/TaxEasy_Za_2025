@@ -1,6 +1,70 @@
 const TEXTS = {
-  en: { step1:"Step 1 – Personal", step2:"Step 2 – Income", step3:"Step 3 – Deductions", step4:"Step 4 – Advanced", step5:"Step 5 – Summary", salary:"Basic Salary", ra:"Retirement Annuity", travel:"Travel Allowance (km)", solar:"Solar §12B", tax:"Tax", name:"Full Name", age:"Age" },
-  af: { /* Afrikaans */ }, zu: { /* Zulu */ }, xh: { /* Xhosa */ }, st: { /* Sesotho */ }
+  en: {
+    step1: "Step 1 – Personal",
+    step2: "Step 2 – Income",
+    step3: "Step 3 – Deductions",
+    step4: "Step 4 – Advanced",
+    step5: "Step 5 – Summary",
+    gross: "Gross Income",
+    tax: "Tax Payable",
+    name: "Full Name",
+    age: "Age",
+    salary: "Basic Salary",
+    bonus: "Bonus",
+    travel: "Travel Allowance (km)",
+    solar: "Solar §12B",
+    ra: "Retirement Annuity",
+    medical: "Medical Aid",
+    occupation: "Occupation",
+    errorRequired: "This field is required",
+    errorPositive: "Must be a positive number"
+  },
+  af: {
+    step1: "Stap 1 – Persoonlik",
+    step2: "Stap 2 – Inkomste",
+    step3: "Stap 3 – Aftrekkings",
+    step4: "Stap 4 – Gevorderd",
+    step5: "Stap 5 – Opsomming",
+    gross: "Bruto Inkomste",
+    tax: "Belasting Betaalbaar",
+    name: "Volle Naam",
+    age: "Ouderdom",
+    salary: "Basiese Salaris",
+    bonus: "Bonus",
+    travel: "Reistoelaag (km)",
+    solar: "Solar §12B",
+    ra: "Pensioenfonds",
+    medical: "Mediese Fonds",
+    occupation: "Beroep",
+    errorRequired: "Hierdie veld is verpligtend",
+    errorPositive: "Moet 'n positiewe getal wees"
+  },
+  zu: {
+    step1: "Isinyathelo 1 – Somuntu",
+    step2: "Isinyathelo 2 – Imali engenayo",
+    step3: "Isinyathelo 3 – Izindleko eziyakhishwa",
+    step4: "Isinyathelo 4 – Okuthuthukile",
+    step5: "Isinyathelo 5 – Isifinyezo",
+    gross: "Imali engenayo enkulu",
+    tax: "Intela okufanele ikhokhwe",
+    name: "Igama eliphelele",
+    age: "Iminyaka",
+    salary: "Umholo oyisisekelo",
+    bonus: "Ibhonasi",
+    travel: "Imali yokuhamba (km)",
+    solar: "Solar §12B",
+    ra: "Imali yomhlalaphansi",
+    medical: "Insimu yezezempilo",
+    occupation: "Umsebenzi",
+    errorRequired: "Le ndawo iyadingeka",
+    errorPositive: "Kumele kube yinombolo enhle"
+  },
+  xh: {
+    // Xhosa translations matching zu structure
+  },
+  st: {
+    // Sesotho translations matching zu structure
+  }
 };
 
 let currentStep = 0;
