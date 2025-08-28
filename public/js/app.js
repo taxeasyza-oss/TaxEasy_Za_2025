@@ -60,6 +60,46 @@ const TEXTS = {
     errorPositive: "Kumele kube yinombolo enhle"
   },
   xh: {
+    step1: "Inyathelo 1 – Lomntu",
+    step2: "Inyathelo 2 – Iimali ezingenayo",
+    step3: "Inyathelo 3 – Iindleko ezisusiwayo",
+    step4: "Inyathelo 4 – Ezithe nkqo",
+    step5: "Inyathelo 5 – Isishwankathelo",
+    gross: "Iimali ezingenayo ezipheleleyo",
+    tax: "Irhafu efanelekileyo",
+    name: "Igama elipheleleyo",
+    age: "Iminyaka",
+    salary: "Umvuzo oyisiseko",
+    bonus: "Ibhonasi",
+    travel: "Imali yeendlela (km)",
+    solar: "Solar §12B",
+    ra: "Imali yokuphumla",
+    medical: "Iinkonzo zempilo",
+    occupation: "Umsebenzi",
+    errorRequired: "Eli candelo liyafuneka",
+    errorPositive: "Kufuneka ibe linani elilungileyo"
+  },
+  st: {
+    step1: "Mohato 1 – Motho",
+    step2: "Mohato 2 – Chelete e kenang",
+    step3: "Mohato 3 – Ditšhelete tse nkelwang",
+    step4: "Mohato 4 – Tse ntle",
+    step5: "Mohato 5 – Kakaretso",
+    gross: "Chelete e kenang eohle",
+    tax: "Lekhetho le lokelang ho lefa",
+    name: "Leina le feletseng",
+    age: "Lilemo",
+    salary: "Moputso wa motheo",
+    bonus: "Moputso o eketsang",
+    travel: "Chelete ya leeto (km)",
+    solar: "Solar §12B",
+    ra: "Chelete ya boiphihlelo",
+    medical: "Tšebeletso ya bophelo bo botle",
+    occupation: "Mosebetsi",
+    errorRequired: "Sebaka sena se hlokahala",
+    errorPositive: "E lokela ho ba nomoro e ntle"
+  },
+  xh: {
     // Xhosa translations matching zu structure
   },
   st: {
