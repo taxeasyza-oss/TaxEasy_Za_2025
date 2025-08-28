@@ -21,7 +21,7 @@ function updateDeduction(){
   document.getElementById('tax').textContent = occ ? `+${{ Doctor:5000, Teacher:3000, Engineer:2000, Domestic:1000}[occ] || 0}` : '';
 }
 
-function calcTax(){
+async function calcTax(){
   // Validate inputs
   const salary = validateInput('salary', 'Basic salary required');
   const ra = validateInput('ra', 'RA contribution required');
