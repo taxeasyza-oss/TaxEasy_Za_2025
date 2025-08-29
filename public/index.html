@@ -1,75 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>TaxEasy_ZA – 2025 SA Tax Calculator</title>
-  <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet"/>
+  <style>
+    body { font-family: Inter, sans-serif; background: #1e3a8a; color: #65a30d; }
+    .step { display: none; } .active { display: block; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>TaxEasy_ZA – 2025 SA Tax Calculator</h1>
-    <select id="lang" onchange="changeLang(this.value)">
-      <option value="en">English</option>
-      <option value="af">Afrikaans</option>
-      <option value="zu">Zulu</option>
-      <option value="xh">Xhosa</option>
-      <option value="st">Sesotho</option>
+  <nav class="bg-blue-900 p-4 text-white">
+    <h1>TaxEasy_ZA 2025</h1>
+    <select id="lang" onchange="changeLang(this.value)" class="ml-4">
+      <option value="en">English</option><option value="af">Afrikaans</option><option value="zu">Zulu</option><option value="xh">Xhosa</option><option value="st">Sesotho</option>
     </select>
-  </header>
+  </nav>
 
-  <main id="app">
-    <!-- Step 1: Personal -->
-    <section class="step active">
-      <h2 data-txt="step1">Step 1 – Personal</h2>
-      <label data-txt="name" title="Enter your full name">Name <input id="name" /></label>
-      <label data-txt="age" title="Your age">Age <input id="age" type="number" min="0"/></label>
-      <button onclick="nextStep()">Next</button>
-    </section>
-
-    <!-- Step 2: Income -->
-    <section class="step">
-      <h2 data-txt="step2">Step 2 – Income</h2>
-      <label data-txt="salary" title="Gross salary before tax">Basic Salary <input id="salary" type="number" min="0"/></label>
-      <label data-txt="bonus" title="Annual bonus">Bonus <input id="bonus" type="number" min="0"/></label>
-      <label data-txt="travel" title="Kilometres × R3.82">Travel Allowance (km) <input id="travel" type="number" min="0"/></label>
-      <label data-txt="solar" title="Solar §12B deduction">Solar §12B <input id="solar" type="number" min="0"/></label>
-      <button onclick="nextStep()">Next</button>
-    </section>
-
-    <!-- Step 3: Deductions -->
-    <section class="step">
-      <h2 data-txt="step3">Step 3 – Deductions</h2>
-      <label data-txt="ra" title="Retirement annuity cap 27.5 %">Retirement Annuity <input id="ra" type="number" min="0"/></label>
-      <label data-txt="medical" title="Annual medical credit">Medical Aid <input id="medical" type="number" min="0"/></label>
-      <button onclick="nextStep()">Next</button>
-    </section>
-
-    <!-- Step 4: Advanced -->
-    <section class="step">
-      <h2 data-txt="step4">Step 4 – Advanced</h2>
-      <label data-txt="occupation" title="Occupation-specific deduction">Occupation
-        <select id="occupation" onchange="updateDeduction()">
-          <option value="">Select</option>
-          <option value="Doctor">Doctor (+R5k)</option>
-          <option value="Teacher">Teacher (+R3k)</option>
-          <option value="Engineer">Engineer (+R2k)</option>
-          <option value="Domestic">Domestic (+R1k)</option>
-        </select>
-      </label>
-      <button onclick="nextStep()">Next</button>
-    </section>
-
-    <!-- Step 5: Summary -->
-    <section class="step">
-      <h2 data-txt="step5">Step 5 – Summary</h2>
-      <p data-txt="gross">Gross Income: <span id="gross">0.00</span></p>
-      <p data-txt="tax">Tax Payable: <span id="tax">0.00</span></p>
-      <a href="/faq">FAQ</a>
-      <a href="/efiling-guide">eFiling Guide</a>
-    </section>
+  <main id="app" class="p-4 max-w-4xl mx-auto">
+    <div class="step active">
+      <h2>Step 1 – Personal</h2>
+      <label>Full Name <input id="name" required></label>
+      <label>Age <input id="age" type="number" min="0"></label>
+    </div>
+    <div class="step">
+      <h2>Step 2 – Income</h2>
+      <label>Salary <input id="salary" type="number" min="0"></label>
+      <label>Bonus <input id="bonus" type="number" min="0"></label>
+      <label>Travel km <input id="travel" type="number" min="0"></label>
+      <label>Solar §12B <input id="solar" type="number" min="0"></label>
+    </div>
+    <div class="step">
+      <h2>Step 3 – Deductions</h2>
+      <label>Retirement <input id="ra" type="number" min="0"></label>
+      <label>Medical <input id="medical" type="number" min="0"></label>
+    </div>
+    <div class="step">
+      <h2>Step 4 – Advanced</h2>
+      <select id="occupation">
+        <option value="">Select Occupation</option>
+        <option value="Doctor">Doctor (+R5k)</option>
+        <option value="Teacher">Teacher (+R3k)</option>
+        <option value="Engineer">Engineer (+R2k)</option>
+        <option value="Domestic">Domestic (+R1k)</option>
+      </select>
+    </div>
+    <div class="step">
+      <h2>Step 5 – Summary</h2>
+      <p>Tax: <span id="tax">0</span></p>
+      <a href="/faq">FAQ</a> | <a href="/efiling-guide">eFiling Guide</a>
+    </div>
   </main>
 
+  <script src="/js/tax-calculator.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/payfast.js"></script>
   <script src="/js/app.js"></script>
 </body>
 </html>
