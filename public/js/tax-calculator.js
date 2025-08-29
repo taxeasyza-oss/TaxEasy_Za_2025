@@ -25,7 +25,11 @@ class TaxCalculator {
     const ra = Math.min(+document.getElementById('ra').value || 0, salary * 0.275);
     const gross = salary;
     const taxable = Math.max(0, gross - ra);
-    const taxBefore = this.brackets.reduce((acc, b) => taxable > b.max ? b.base + (b.max - b.min) * b.rate : acc + Math.max(0, taxable - b.min) * b.rate, 0);
+    const taxBefore = this.brackets.reduce((acc, b) => {
+      if (taxable <= b.min) return acc;
+      if (taxable > b.max) return acc + b.base + (b.max - b.min) * b.rate;
+      return acc + b.base + (taxable - b.min) * b.rate;
+    }, 0);
     let rebate = this.rebates.primary;
     if (age === '65-74') rebate += this.rebates.secondary;
     if (age === '75-plus') rebate += this.rebates.tertiary;
