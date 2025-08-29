@@ -1,4 +1,3 @@
-
 class TaxCalculator {
   constructor() {
     this.brackets = [
@@ -29,3 +28,9 @@ class TaxCalculator {
     const taxBefore = this.brackets.reduce((acc, b) => taxable > b.max ? b.base + (b.max - b.min) * b.rate : acc + Math.max(0, taxable - b.min) * b.rate, 0);
     let rebate = this.rebates.primary;
     if (age === '65-74') rebate += this.rebates.secondary;
+    if (age === '75-plus') rebate += this.rebates.tertiary;
+    const tax = Math.max(0, taxBefore - rebate);
+    document.getElementById('tax').textContent = 'R ' + tax.toFixed(2);
+  };
+}
+window.taxCalculator = new TaxCalculator();
