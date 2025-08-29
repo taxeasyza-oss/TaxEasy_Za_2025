@@ -22,8 +22,18 @@ class TaxCalculator {
   calculate = () => {
     const salary = +document.getElementById('salary').value || 0;
     const age = document.getElementById('age').value || 'under-65';
+    const occupation = document.getElementById('occupation').value;
     const ra = Math.min(+document.getElementById('ra').value || 0, salary * 0.275);
-    const gross = salary;
+    
+    // Occupation-based bonuses
+    const occupationBonuses = {
+      'Doctor': 5000,
+      'Teacher': 3000,
+      'Engineer': 2000,
+      'Domestic': 1000
+    };
+    
+    const gross = salary + (occupationBonuses[occupation] || 0);
     const taxable = Math.max(0, gross - ra);
     const taxBefore = this.brackets.reduce((acc, b) => {
       if (taxable <= b.min) return acc;
