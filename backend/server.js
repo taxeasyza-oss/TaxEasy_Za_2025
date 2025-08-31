@@ -59,7 +59,7 @@ app.post('/api/calculate-tax', validateTaxInput, (req, res) => {
 app.get('/health', (req, res) => res.send('OK'));
 // Serve static assets with explicit MIME type handling
 const path = require('path');
-app.use('/css', express.static(path.join(__dirname, '../public/css'), {
+app.use('/css', express.static(path.join(__dirname, '../public'), {
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
