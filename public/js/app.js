@@ -62,7 +62,7 @@ class SARSTaxEngine2025 {
 
     for (const b of this.brackets) {
       if (remaining <= 0) break;
-      const taxableInBracket = Math.min(remaining, b.max - b.min + 1);
+      const taxableInBracket = Math.min(remaining, b.max - b.min);
       const bracketTax = taxableInBracket * b.rate;
       tax += bracketTax;
       remaining -= taxableInBracket;

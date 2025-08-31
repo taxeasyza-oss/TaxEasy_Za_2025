@@ -57,7 +57,25 @@ app.post('/api/calculate-tax', validateTaxInput, (req, res) => {
 
 // Existing routes from app.py converted to Express
 app.get('/health', (req, res) => res.send('OK'));
-app.use(express.static(process.env.STATIC_DIR || '../public'));
+// Serve static assets with explicit MIME type handling
+const path = require('path');
+app.use('/css', express.static(path.join(__dirname, '../public/css'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
+
+app.use('/js', express.static(path.join(__dirname, '../public/js'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
+app.use('/images', express.static(path.join(__dirname, '../public/images')));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
