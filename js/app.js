@@ -84,4 +84,4 @@ document.querySelectorAll('input').forEach(input => {
 
 document.getElementById('lang').value = currentLang;
 updateTexts();
-calcTax();
+calcTax(); 
