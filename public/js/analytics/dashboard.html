@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TaxEasy_ZA Analytics</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .metric { padding: 10px; margin: 5px 0; background: #f0f0f0; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>TaxEasy_ZA Performance Dashboard</h1>
+  <div class="metric">Page Load Time: <span id="loadTime">-</span>ms</div>
+  <div class="metric">Active Users: <span id="activeUsers">1</span></div>
+  <script>
+    document.getElementById('loadTime').textContent = 
+      performance.timing.loadEventEnd - performance.timing.navigationStart;
+  </script>
+</body>
+</html>
