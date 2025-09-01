@@ -1,49 +1,30 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const csrf = require('csurf');
-const path = require('path');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// REQUIRED: Add these middleware in EXACT order
+// CRITICAL: Add cookie parser BEFORE any routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser()); // MUST come before CSRF
-app.use(cors()); // Allow cross-origin requests
-app.use(express.static('public')); // Serve frontend files
+app.use(cookieParser()); // This MUST exist
+app.use(cors());
 
-// Configure CSRF with cookies (simpler for beginners)
-const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
+// Serve static files
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Route to provide CSRF token to frontend
-app.get('/api/csrf-token', (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
-
-// Basic health check
+// Basic routes (CSRF disabled for testing)
 app.get('/health', (req, res) => {
   res.json({ status: 'healthy', timestamp: new Date().toISOString() });
 });
 
-// Your existing tax calculation endpoint
-app.post('/api/calculate-tax', (req, res) => {
-  try {
-    const taxData = req.body;
-    // Add your tax calculation logic here
-    res.json({ 
-      success: true, 
-      taxPayable: 0, // Replace with actual calculation
-      csrfToken: req.csrfToken() 
-    });
-  } catch (error) {
-    res.status(500).json({ error: 'Calculation error' });
-  }
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'Server is working!' });
 });
 
-// Serve the main page
+// Catch all route for SPA
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
