@@ -905,4 +905,4 @@ document.addEventListener('DOMContentLoaded', () => {
     window.wizard = new TaxWizard();
 });
 
-export default TaxWizard;
+window.TaxWizard = TaxWizard;
