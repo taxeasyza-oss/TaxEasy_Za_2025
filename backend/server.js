@@ -61,21 +61,71 @@ app.get('/health', (req, res) => res.send('OK'));
 const path = require('path');
 app.use('/css', express.static(path.join(__dirname, '../public'), {
   setHeaders: (res, path) => {
+    // Security headers
+    res.set({
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+    });
+    
+    // Cache control for CSS
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css');
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
     }
+    
+    // Additional MIME types
+    if (path.endsWith('.woff')) res.set('Content-Type', 'font/woff');
+    if (path.endsWith('.woff2')) res.set('Content-Type', 'font/woff2');
+    if (path.endsWith('.pdf')) res.set('Content-Type', 'application/pdf');
   }
 }));
 
 app.use('/js', express.static(path.join(__dirname, '../public/js'), {
   setHeaders: (res, path) => {
+    // Security headers
+    res.set({
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+    });
+    
+    // Cache control for JS
     if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript');
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
     }
   }
 }));
 
-app.use('/images', express.static(path.join(__dirname, '../public/images')));
+app.use('/images', express.static(path.join(__dirname, '../public/images'), {
+  setHeaders: (res, path) => {
+    // Security headers
+    res.set({
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY'
+    });
+    
+    // Set MIME types and caching
+    const ext = path.split('.').pop();
+    switch(ext) {
+      case 'png':
+        res.set('Content-Type', 'image/png');
+        break;
+      case 'jpg':
+      case 'jpeg':
+        res.set('Content-Type', 'image/jpeg');
+        break;
+      case 'gif':
+        res.set('Content-Type', 'image/gif');
+        break;
+      case 'svg':
+        res.set('Content-Type', 'image/svg+xml');
+        break;
+    }
+    res.set('Cache-Control', 'public, max-age=31536000, immutable');
+  }
+}));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
