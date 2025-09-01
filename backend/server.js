@@ -45,4 +45,13 @@ app.post('/api/calculate', (req, res) => {
 
 // Catch-all handler: send back index.html for any non-API routes
 app.get('*', (req, res) => {
-    res.sendFile(
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`🚀 TaxEasy ZA 2025 server running on port ${PORT}`);
+    console.log(`📂 Serving static files from: ${path.join(__dirname, '../public')}`);
+});
+
+module.exports = app;
