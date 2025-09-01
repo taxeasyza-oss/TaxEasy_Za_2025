@@ -1,7 +1,21 @@
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
 const { calculateTax } = require('./tax-calculation');
 const securityMiddleware = require('./middleware/security');
+
+// Configure session middleware
+const sessionConfig = {
+  secret: process.env.SESSION_SECRET || 'your-strong-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+};
 const { body, validationResult } = require('express-validator');
 
 const app = express();
