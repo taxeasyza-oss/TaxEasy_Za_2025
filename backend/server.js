@@ -5,53 +5,61 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Enhanced error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Internal server error', details: err.message });
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, '../public')));
+// Enhanced static file serving with explicit path resolution
+const publicPath = path.resolve(__dirname, '../public');
+console.log('Public path resolved to:', publicPath);
+app.use(express.static(publicPath));
 
-// API routes
+// Root route to serve index.html directly
+app.get('/', (req, res) => {
+    const indexPath = path.join(publicPath, 'index.html');
+    console.log('Serving index.html from:', indexPath);
+    res.sendFile(indexPath, (err) => {
+        if (err) {
+            console.error('Error serving index.html:', err);
+            res.status(500).send('Error loading application');
+        }
+    });
+});
+
+// API routes with enhanced logging
 app.get('/api/health', (req, res) => {
+    console.log('Health check requested');
     res.json({ 
         status: 'healthy', 
         timestamp: new Date().toISOString(),
-        message: 'TaxEasy ZA 2025 Server Running'
+        message: 'TaxEasy ZA 2025 Server Running',
+        publicPath: publicPath,
+        environment: process.env.NODE_ENV || 'development'
     });
 });
 
 app.get('/api/test', (req, res) => {
-    res.json({ message: 'Server is working!' });
+    console.log('Test endpoint requested');
+    res.json({ 
+        message: 'Server is working!',
+        timestamp: new Date().toISOString()
+    });
 });
 
 // Handle tax calculation endpoint
 app.post('/api/calculate', (req, res) => {
     try {
+        console.log('Tax calculation requested:', req.body);
         const { income, age, deductions } = req.body;
         
         // Basic validation
         if (!income || isNaN(income) || income < 0) {
             return res.status(400).json({ error: 'Invalid income amount' });
         }
-
-        // Tax calculation would be handled by frontend
-        res.json({ message: 'Calculation endpoint ready' });
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-// Catch-all handler: send back index.html for any non-API routes
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 TaxEasy ZA 2025 server running on port ${PORT}`);
-    console.log(`📂 Serving static files from: ${path.join(__dirname, '../public')}`);
-});
-
-module.exports = app;
