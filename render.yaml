@@ -1,31 +1,9 @@
 services:
-  # Web service for Flask backend
   - type: web
-    name: taxeasy-backend
-    runtime: node
+    name: taxeasy-za-2025
+    env: node
     buildCommand: npm install
-    startCommand: node backend/server.js
-    envVars:
-      - key: FLASK_ENV
-        value: production
-      - key: PYTHON_VERSION
-        value: 3.10
-      - key: GUNICORN_WORKERS
-        value: 4
-    healthCheckPath: /health
-
-  # Static site service for frontend
-  - type: static
-    name: taxeasy-frontend
-    buildCommand: |
-      echo "Building static assets" &&
-      mkdir -p public &&
-      cp -R *.html css/ js/ locales/ public/
-    publish: public
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
