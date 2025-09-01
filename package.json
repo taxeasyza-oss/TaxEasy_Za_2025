@@ -1,22 +1,17 @@
 {
   "name": "taxeasy-za-2025",
   "version": "1.0.0",
-  "description": "South African Personal Tax Calculator",
+  "description": "South African Personal Tax Calculator 2025",
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "build": "echo 'No build step required'",
-    "dev": "node server.js"
+    "dev": "node backend/server.js",
+    "build": "echo 'Static files ready'",
+    "test": "echo 'Tests not configured'"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "express-validator": "^7.0.1",
-    "helmet": "^7.1.0",
-    "rate-limiter-flexible": "^2.4.0",
-    "csurf": "^1.11.0",
-    "express-session": "^1.18.0",
-    "cookie-parser": "^1.4.6"
+    "cors": "^2.8.5"
   },
   "engines": {
     "node": ">=18.x"
@@ -24,8 +19,14 @@
   "keywords": [
     "tax",
     "south-africa",
-    "calculator"
+    "calculator",
+    "sars",
+    "2025"
   ],
   "author": "TaxEasy Team",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taxeasyza-oss/TaxEasy_Za_2025"
+  }
 }
