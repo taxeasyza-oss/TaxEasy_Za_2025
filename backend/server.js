@@ -1,34 +1,48 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// CRITICAL: Add cookie parser BEFORE any routes
+// Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser()); // This MUST exist
-app.use(cors());
 
-// Serve static files
+// Serve static files from public directory
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Basic routes (CSRF disabled for testing)
-app.get('/health', (req, res) => {
-  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+// API routes
+app.get('/api/health', (req, res) => {
+    res.json({ 
+        status: 'healthy', 
+        timestamp: new Date().toISOString(),
+        message: 'TaxEasy ZA 2025 Server Running'
+    });
 });
 
 app.get('/api/test', (req, res) => {
-  res.json({ message: 'Server is working!' });
+    res.json({ message: 'Server is working!' });
 });
 
-// Catch all route for SPA
+// Handle tax calculation endpoint
+app.post('/api/calculate', (req, res) => {
+    try {
+        const { income, age, deductions } = req.body;
+        
+        // Basic validation
+        if (!income || isNaN(income) || income < 0) {
+            return res.status(400).json({ error: 'Invalid income amount' });
+        }
+
+        // Tax calculation would be handled by frontend
+        res.json({ message: 'Calculation endpoint ready' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Catch-all handler: send back index.html for any non-API routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+    res.sendFile(
