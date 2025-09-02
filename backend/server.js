@@ -5,97 +5,45 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Enhanced error handling middleware
-app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Internal server error', details: err.message });
-});
-
-// Middleware
+/* ---------- Middleware ---------- */
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Enhanced static file serving with explicit path resolution
+/* ---------- Static Files ---------- */
 const publicPath = path.resolve(__dirname, '../public');
-console.log('Public path resolved to:', publicPath);
 app.use(express.static(publicPath));
 
-// Root route to serve index.html directly
+/* ---------- SPA Fallback ---------- */
 app.get('/', (req, res) => {
-    const indexPath = path.join(publicPath, 'index.html');
-    console.log('Serving index.html from:', indexPath);
-    res.sendFile(indexPath, (err) => {
-        if (err) {
-            console.error('Error serving index.html:', err);
-            res.status(500).send('Error loading application');
-        }
-    });
+  res.sendFile(path.join(__dirname, '../index.html'));
 });
 
-// API routes with enhanced logging
+/* ---------- Health Check ---------- */
 app.get('/api/health', (req, res) => {
-    console.log('Health check requested');
-    res.json({ 
-        status: 'healthy', 
-        timestamp: new Date().toISOString(),
-        message: 'TaxEasy ZA 2025 Server Running',
-        publicPath: publicPath,
-        environment: process.env.NODE_ENV || 'development'
-    });
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    message: 'TaxEasy ZA 2025 is running'
+  });
 });
 
-app.get('/api/test', (req, res) => {
-    console.log('Test endpoint requested');
-    res.json({ 
-        message: 'Server is working!',
-        timestamp: new Date().toISOString()
-    });
+/* ---------- 404 Handler ---------- */
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
 });
 
-// Handle tax calculation endpoint
-app.post('/api/calculate', (req, res, next) => {
-    try {
-        console.log('Tax calculation requested:', req.body);
-        const { income, age, deductions } = req.body;
-
-        // Enhanced validation
-        if (typeof income !== 'number' || income < 0) {
-            return res.status(400).json({ error: 'Invalid income amount' });
-        }
-        
-        if (typeof age !== 'number' || age < 18 || age > 150) {
-            return res.status(400).json({ error: 'Invalid age value' });
-        }
-
-        if (typeof deductions !== 'number' || deductions < 0 || deductions > income) {
-            return res.status(400).json({ error: 'Invalid deductions value' });
-        }
-
-        // Improved calculation logic with tax brackets (placeholder values)
-        // TODO: Implement actual 2025 South African tax brackets
-        const taxableIncome = income - deductions;
-        let taxDue = 0;
-        
-        if (taxableIncome > 237100) taxDue = taxableIncome * 0.45;
-        else if (taxableIncome > 195850) taxDue = taxableIncome * 0.39;
-        else if (taxableIncome > 152540) taxDue = taxableIncome * 0.31;
-        else if (taxableIncome > 115800) taxDue = taxableIncome * 0.26;
-        else taxDue = taxableIncome * 0.18;
-        
-        res.json({
-            income,
-            age,
-            deductions,
-            taxDue,
-            calculationDate: new Date().toISOString()
-        });
-        
-    } catch (error) {
-        console.error('Calculation error:', error);
-        res.status(500).json({
-            error: 'Calculation failed',
-            details: error.message
-        });
-    }
+/* ---------- Global Error Handler ---------- */
+app.use((err, req, res, next) => {
+  console.error('Unhandled Error:', err);
+  res.status(err.status || 500).json({
+    error: err.message || 'Internal server error'
+  });
 });
+
+/* ---------- Start Server ---------- */
+app.listen(PORT, () => {
+  console.log(`🚀 Server listening on port ${PORT}`);
+});
+
+module.exports = app;
