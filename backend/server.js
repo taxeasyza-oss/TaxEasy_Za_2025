@@ -90,3 +90,4 @@ app.post('/api/calculate', (req, res) => {
             details: error.message
         });
     }
+});
