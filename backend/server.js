@@ -58,8 +58,35 @@ app.post('/api/calculate', (req, res) => {
     try {
         console.log('Tax calculation requested:', req.body);
         const { income, age, deductions } = req.body;
-        
-        // Basic validation
-        if (!income || isNaN(income) || income < 0) {
+
+        // Enhanced validation
+        if (typeof income !== 'number' || income < 0) {
             return res.status(400).json({ error: 'Invalid income amount' });
         }
+        
+        if (typeof age !== 'number' || age < 18 || age > 150) {
+            return res.status(400).json({ error: 'Invalid age value' });
+        }
+
+        if (typeof deductions !== 'number' || deductions < 0) {
+            return res.status(400).json({ error: 'Invalid deductions value' });
+        }
+
+        // Calculation logic placeholder
+        const taxDue = income * 0.18 - deductions;
+        
+        res.json({
+            income,
+            age,
+            deductions,
+            taxDue,
+            calculationDate: new Date().toISOString()
+        });
+        
+    } catch (error) {
+        console.error('Calculation error:', error);
+        res.status(500).json({
+            error: 'Calculation failed',
+            details: error.message
+        });
+    }
