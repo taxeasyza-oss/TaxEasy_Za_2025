@@ -54,7 +54,7 @@ app.get('/api/test', (req, res) => {
 });
 
 // Handle tax calculation endpoint
-app.post('/api/calculate', (req, res) => {
+app.post('/api/calculate', (req, res, next) => {
     try {
         console.log('Tax calculation requested:', req.body);
         const { income, age, deductions } = req.body;
@@ -68,12 +68,20 @@ app.post('/api/calculate', (req, res) => {
             return res.status(400).json({ error: 'Invalid age value' });
         }
 
-        if (typeof deductions !== 'number' || deductions < 0) {
+        if (typeof deductions !== 'number' || deductions < 0 || deductions > income) {
             return res.status(400).json({ error: 'Invalid deductions value' });
         }
 
-        // Calculation logic placeholder
-        const taxDue = income * 0.18 - deductions;
+        // Improved calculation logic with tax brackets (placeholder values)
+        // TODO: Implement actual 2025 South African tax brackets
+        const taxableIncome = income - deductions;
+        let taxDue = 0;
+        
+        if (taxableIncome > 237100) taxDue = taxableIncome * 0.45;
+        else if (taxableIncome > 195850) taxDue = taxableIncome * 0.39;
+        else if (taxableIncome > 152540) taxDue = taxableIncome * 0.31;
+        else if (taxableIncome > 115800) taxDue = taxableIncome * 0.26;
+        else taxDue = taxableIncome * 0.18;
         
         res.json({
             income,
