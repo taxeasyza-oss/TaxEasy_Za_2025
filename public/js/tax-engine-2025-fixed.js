@@ -16,15 +16,9 @@ class TaxEngine2025 {
     this.medical    = { main: 364, firstDep: 364, extraDep: 246 };
   }
 
-  calculateTax(grossIncome, ageGroup = 'under65', deductions = {}) {
-    const d = {
-      retirement: 0, medicalAid: 0, members: 0, dependants: 0,
-      donations: 0, travel: 0, homeOffice: 0, renewable: 0, other: 0, ...deductions
-    };
-
-    const maxRetire = Math.min(grossIncome * 0.275, 350000);
-    const retireDed = Math.min(d.retirement, maxRetire);
-    const totalDed  = retireDed + d.donations + d.travel + d.homeOffice + d.renewable + d.other;
+  calculateTax(grossIncome, ageGroup, deductions) {
+    // Calculate total deductible amount
+    const totalDed = Math.min(deductions, grossIncome * 0.275); // Ensure deductions don't exceed 27.5% of income
     const taxable   = Math.max(0, grossIncome - totalDed);
     const threshold = this.thresholds[ageGroup] ?? this.thresholds.under65;
 
