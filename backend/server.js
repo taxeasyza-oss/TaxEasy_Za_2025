@@ -2,6 +2,9 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
+const { processPayment } = require('./payfast-service');
+const logger = require('./logger');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -13,6 +16,46 @@ app.use(express.urlencoded({ extended: true }));
 /* ---------- Static Files ---------- */
 const publicPath = path.resolve(__dirname, '../public');
 app.use(express.static(publicPath));
+
+/* ---------- Payment Processing ---------- */
+app.post('/api/payments/process', async (req, res) => {
+  try {
+    const { amount, description, userEmail } = req.body;
+    
+    if (!amount || !description || !userEmail) {
+      logger.warn('Invalid payment request', { request: req.body });
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const paymentResult = await processPayment({
+      amount,
+      description,
+      email: userEmail
+    });
+
+    logger.info('Payment processed successfully', {
+      paymentId: paymentResult.paymentId,
+      amount,
+      userEmail
+    });
+
+    res.json({
+      success: true,
+      paymentId: paymentResult.paymentId,
+      redirectUrl: paymentResult.redirectUrl
+    });
+
+  } catch (error) {
+    logger.error('Payment processing failed', {
+      error: error.message,
+      stack: error.stack
+    });
+    res.status(500).json({
+      error: 'Payment processing failed',
+      details: error.message
+    });
+  }
+});
 
 /* ---------- SPA Fallback ---------- */
 app.get('/', (req, res) => {
