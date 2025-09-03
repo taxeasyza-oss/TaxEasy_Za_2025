@@ -643,6 +643,20 @@
             setupRealTimeCalculations();
             
             console.log('TaxEasy_ZA Professional Calculator initialized successfully');
+            
+            // Initialize notification system
+            window.showNotification = (message, type = 'success') => {
+                const container = document.getElementById('notificationContainer');
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                
+                container.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            };
         });
 
         function setupRealTimeCalculations() {
@@ -732,12 +746,13 @@
             const userEmail = document.getElementById('email').value;
             
             if (!userEmail) {
-                alert('Please provide an email address for report delivery.');
+                showNotification('⚠️ Please provide a valid email address for report delivery', 'error');
                 document.getElementById('email').focus();
                 return;
             }
 
             window.payfast.generatePaymentForm(99, 'Professional Tax Report 2025', userEmail);
+            showNotification('✅ Professional report purchase initiated - check your email for payment confirmation');
         }
 
         // Basic report generation
@@ -755,5 +770,8 @@
     <script type="module" src="/js/privacy/secure-forms.js"></script>
     <script type="module" src="/js/language/enhanced-language-handler.js"></script>
     <script type="module" src="/js/analytics/performance-monitor.js"></script>
+    
+    <!-- Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
 </body>
 </html>
