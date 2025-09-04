@@ -1,14 +1,32 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+require('dotenv').config();
 
-- const payfastService = require('./payfast-service');
 const logger = require('./logger');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+/* ---------- Rate Limiting ---------- */
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many requests, please try again later'
+});
+
+const paymentLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: 'Too many payment attempts, please try again later'
+});
+
 /* ---------- Middleware ---------- */
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,7 +36,7 @@ const publicPath = path.resolve(__dirname, '../public');
 app.use(express.static(publicPath));
 
 /* ---------- Payment Processing ---------- */
-app.post('/api/payments/process', async (req, res) => {
+app.post('/api/payments/process', paymentLimiter, async (req, res) => {
   try {
     const { amount, description, userEmail } = req.body;
     
@@ -64,6 +82,8 @@ app.get('/', (req, res) => {
 
 /* ---------- Health Check ---------- */
 app.get('/api/health', (req, res) => {
+  // Explicitly set cache-control headers for health check
+  res.set('Cache-Control', 'no-store, max-age=0');
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
