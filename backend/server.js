@@ -36,6 +36,8 @@ const publicPath = path.resolve(__dirname, '../public');
 app.use(express.static(publicPath));
 
 /* ---------- Payment Processing ---------- */
+const payfastService = require('./payfast-service');
+
 app.post('/api/payments/process', paymentLimiter, async (req, res) => {
   try {
     const { amount, description, userEmail } = req.body;
