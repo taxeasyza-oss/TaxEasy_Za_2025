@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
+- const payfastService = require('./payfast-service');
 const logger = require('./logger');
 
 const app = express();
