@@ -1,12 +1,1 @@
-{
-  "step1":"Step 1 – Personal",
-  "step2":"Step 2 – Income",
-  "step3":"Step 3 – Deductions",
-  "step4":"Step 4 – Advanced",
-  "step5":"Step 5 – Calculation",
-  "full_name":"Full Name", "age":"Age",
-  "salary":"Basic Salary", "bonus":"Bonus", "commission":"Commission", "travel":"Travel Allowance",
-  "pension":"Pension Fund", "ra":"Retirement Annuity", "medical":"Medical Aid",
-  "solar":"Solar §12B", "homeOffice":"Home Office",
-  "occupation":"Occupation", "deduct_doc":"Doctor: extra R 5 000", "deduct_teach":"Teacher: extra R 3 000"
-}
+{"language":"English","welcome":"Welcome to TaxEasy ZA 2025"}
