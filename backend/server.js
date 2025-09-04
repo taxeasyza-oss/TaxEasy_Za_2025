@@ -27,7 +27,18 @@ const paymentLimiter = rateLimit({
 
 /* ---------- Middleware ---------- */
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS ?
+    process.env.ALLOWED_ORIGINS.split(',') : [
+    'https://taxeasy-za-2025.onrender.com',
+    'http://localhost:3000'
+  ],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  maxAge: 86400,
+  preflightContinue: false
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
