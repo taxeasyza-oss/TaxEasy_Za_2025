@@ -1833,3 +1833,8 @@ body {
         justify-content: center;
     }
 }
+
+/* Wizard layout */
+.wizard-page{display:none;}
+.wizard-page.active{display:block;}
+
