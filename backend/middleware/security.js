@@ -1,19 +1,23 @@
 const helmet = require('helmet');
 const { RateLimiterMemory } = require('rate-limiter-flexible');
-const csurf = require('csurf');
+const { doubleCsrf } = require('csrf-csrf');
+const { generateToken } = doubleCsrf({
+  getSecret: () => process.env.CSRF_SECRET || 'taxeasy-za-2025-default-secret',
+  cookieName: '_csrf',
+  cookieOptions: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'strict'
+  }
+});
 
 // Security middleware configuration
 const securityMiddleware = (app) => {
   // CSRF protection
-  app.use(csurf({
-    cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
-      sameSite: 'strict'
-    }
-  }));
+  // CSRF protection with csrf-csrf
   app.use((req, res, next) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken(), {
+    const csrfToken = generateToken(res);
+    res.cookie('XSRF-TOKEN', csrfToken, {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
       sameSite: 'strict'
