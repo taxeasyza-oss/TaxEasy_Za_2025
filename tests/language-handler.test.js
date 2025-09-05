@@ -1,7 +1,4 @@
 // Load polyfills first
-
-// Configure JSDOM after polyfills
-const { JSDOM } = require('jsdom');
 const fs = require('fs');
 const path = require('path');
 
