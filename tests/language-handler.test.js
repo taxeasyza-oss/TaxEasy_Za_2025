@@ -1,7 +1,4 @@
 // Load polyfills first
-const { TextEncoder, TextDecoder } = require('text-encoding');
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
 
 // Configure JSDOM after polyfills
 const { JSDOM } = require('jsdom');
