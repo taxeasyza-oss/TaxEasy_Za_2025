@@ -26,15 +26,20 @@ const paymentLimiter = rateLimit({
 });
 
 /* ---------- Middleware ---------- */
+const compression = require('compression');
+const { securityHeaders } = require('./middleware/security');
+
 app.use(helmet());
+app.use(securityHeaders);
+app.use(compression());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS ?
     process.env.ALLOWED_ORIGINS.split(',') : [
     'https://taxeasy-za-2025.onrender.com',
     'http://localhost:3000'
   ],
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true,
   maxAge: 86400,
   preflightContinue: false
@@ -44,7 +49,15 @@ app.use(express.urlencoded({ extended: true }));
 
 /* ---------- Static Files ---------- */
 const publicPath = path.resolve(__dirname, '../public');
-app.use(express.static(publicPath));
+app.use(express.static(publicPath, {
+  setHeaders: (res, path) => {
+    if (express.static.mime.lookup(path) === 'text/html') {
+      res.set('Cache-Control', 'public, max-age=0');
+    } else {
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  }
+}));
 
 /* ---------- Payment Processing ---------- */
 const payfastService = require('./payfast-service');
@@ -106,6 +119,9 @@ app.get('/api/health', (req, res) => {
 
 /* ---------- 404 Handler ---------- */
 app.use('*', (req, res) => {
+  if (req.accepts('html')) {
+    return res.status(404).sendFile(path.join(publicPath, '404.html'));
+  }
   res.status(404).json({ error: 'Route not found' });
 });
 
