@@ -1,7 +1,10 @@
 const helmet = require('helmet');
 const { doubleCsrf } = require('csrf-csrf');
 
-const { doubleCsrfProtection } = doubleCsrf({
+const {
+  generateToken,
+  doubleCsrfProtection
+} = doubleCsrf({
   getSecret: () => process.env.CSRF_SECRET || 'fallback-secret-change-in-prod',
   cookieName: '__Host-psifi.x-csrf-token',
   cookieOptions: {
@@ -11,6 +14,18 @@ const { doubleCsrfProtection } = doubleCsrf({
     secure: process.env.NODE_ENV === 'production'
   }
 });
+
+const CSP_CONFIG = {
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "'unsafe-inline'", "cdn.payfast.co.za"],
+    styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+    imgSrc: ["'self'", "data:", "cdn.payfast.co.za"],
+    fontSrc: ["'self'", "fonts.gstatic.com"],
+    connectSrc: ["'self'", "api.payfast.co.za"],
+    formAction: ["'self'", "secure.payfast.co.za"]
+  }
+};
 
 module.exports = function securityHeaders() {
   const CSP_CONFIG = {
