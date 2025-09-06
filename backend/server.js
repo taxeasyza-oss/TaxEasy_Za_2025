@@ -30,7 +30,7 @@ const compression = require('compression');
 const { securityHeaders } = require('./middleware/security');
 
 app.use(helmet());
-app.use(securityHeaders);
+app.use(securityHeaders());
 app.use(compression());
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS ?
