@@ -1,5 +1,16 @@
 const helmet = require('helmet');
-const csrf = require('csurf');
+const { doubleCsrf } = require('csrf-csrf');
+
+const { doubleCsrfProtection } = doubleCsrf({
+  getSecret: () => process.env.CSRF_SECRET || 'fallback-secret-change-in-prod',
+  cookieName: '__Host-psifi.x-csrf-token',
+  cookieOptions: {
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    secure: process.env.NODE_ENV === 'production'
+  }
+});
 
 module.exports = function securityHeaders() {
   const CSP_CONFIG = {
@@ -27,7 +38,7 @@ module.exports = function securityHeaders() {
     helmet.contentSecurityPolicy(CSP_CONFIG),
     csrfProtection,
     (req, res, next) => {
-      res.locals.csrfToken = req.csrfToken();
+      res.locals.csrfToken = req.csrfToken?.() || generateToken(res);
       next();
     }
   ];
