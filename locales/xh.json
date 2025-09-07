@@ -27,5 +27,11 @@
       "65to75": "65 ukuya kwi-75",
       "over75": "Ngaphezu kwe-75"
     }
+  },
+  "validation": {
+    "invalid_income_range": "Imali yonyaka kufuneka ibe phakathi kwe-R0 ne-R1.5 yezigidi",
+    "retirement_contribution_limit": "Iindibano zokuphuma ngomhlala-phantsi azinakugqitha i-27.5% yemali yonyaka",
+    "invalid_occupation_type": "Uhlobo lomsebenzi olungasebenziyo - kufuneka kube 'yezempilo' okanye 'jikelele'",
+    "excessive_occupation_deductions": "Ukurhoxiswa kugqitha iphesenti elivunyelweyo lohlobo lomsebenzi"
   }
 }
