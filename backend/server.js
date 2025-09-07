@@ -35,7 +35,9 @@ app.use('/efiling-guides', express.static(guidesPath));
 app.use(csrf());   // ← factory call – returns middleware
 
 /* ---------- 4. API routes ---------- */
-app.get('/api/health', (req, res) => res.json({ status: 'healthy' }));
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
 app.post('/api/payments/process', (req, res) => {
   res.json({ success: true, stub: true });
 });

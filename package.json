@@ -30,6 +30,11 @@
   "engines": {
     "node": ">=18"
   },
-  "keywords": ["tax", "south-africa", "sars", "2025"],
+  "keywords": [
+    "tax",
+    "south-africa",
+    "sars",
+    "2025"
+  ],
   "license": "MIT"
 }
