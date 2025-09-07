@@ -27,5 +27,11 @@
       "65to75": "65 ukuya kwi-75",
       "over75": "Ngaphezu kwe-75"
     }
+  },
+  "validation": {
+    "invalid_income_range": "Imali engenayo yonyaka kufanele ibe phakathi kuka-R0 no-R1.5 wesigidi",
+    "retirement_contribution_limit": "Imikhiqizo yokunikezela emhlalaphini ayikwazi ukudlula u-27.5% wemali engenayo yonyaka",
+    "invalid_occupation_type": "Uhlobo lomsebenzi olungavumelekile - kufanele kube 'ezokwelapha' noma 'jikelele'",
+    "excessive_occupation_deductions": "Ukuhoxiswa kudlula iphesenti elivunyelwe lohlobo lomsebenzi"
   }
 }
