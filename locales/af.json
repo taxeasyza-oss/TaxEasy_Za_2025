@@ -26,6 +26,12 @@
       "under65": "Jonger as 65",
       "65to75": "65 tot 75",
       "over75": "Ouer as 75"
-    }
+    },
+  "validation": {
+    "invalid_income_range": "Jaarlikse inkomste moet tussen R0 en R1.5 miljoen wees",
+    "retirement_contribution_limit": "Pensioenbydraes mag nie 27.5% van jaarlikse inkomste oorskry nie",
+    "invalid_occupation_type": "Ongeldige beroepstipe - moet 'medies' of 'algemeen' wees",
+    "excessive_occupation_deductions": "Aftrekkings oorskry toegelate persentasie vir beroepstipe"
   }
+}
 }
