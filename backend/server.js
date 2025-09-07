@@ -51,5 +51,5 @@ app.get('*', (req, res, next) => {
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
 
 /* ---------- 7. Start server ---------- */
-app.listen(PORT, () => console.log(`🚀 TaxEasy ZA 2025 listening on port ${PORT}`)));
+app.listen(PORT, () => console.log(`🚀 TaxEasy ZA 2025 listening on port ${PORT}`));
 module.exports = app;
