@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { csrf } = require('csrf-csrf');   // NEW – csrf-csrf 4.x factory
+const { doubleCsrf } = require("csrf-csrf");
 require('dotenv').config();
 
 const app = express();
@@ -32,7 +32,24 @@ app.use(express.static(publicPath));
 app.use('/efiling-guides', express.static(guidesPath));
 
 /* ---------- 3. CSRF protection (factory call) ---------- */
-app.use(csrf());   // ← factory call – returns middleware
+// Configure CSRF options
+const csrfOptions = {
+  getSecret: () => process.env.CSRF_SECRET,
+  cookieName: '_csrf',
+  cookieOptions: {
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    httpOnly: true
+  },
+  size: 64,
+  ignoredMethods: ['GET', 'HEAD', 'OPTIONS']
+};
+
+// Create CSRF protection middleware
+const { doubleCsrfProtection } = doubleCsrf(csrfOptions);
+
+// Apply CSRF protection
+app.use(doubleCsrfProtection);
 
 /* ---------- 4. API routes ---------- */
 app.get('/api/health', (req, res) => {
