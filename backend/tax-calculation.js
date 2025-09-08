@@ -18,8 +18,8 @@ const TAX_RATES_2025 = [
 
 const REBATES_2025 = {
   primary: 17235,
-  secondary: 9450,
-  tertiary: 3141
+  over65: 9444,
+  over75: 3145
 };
 
 // SARS 2024/2025 Disability Tax Deduction
