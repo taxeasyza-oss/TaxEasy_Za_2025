@@ -99,7 +99,7 @@ function calculateTax(taxData) {
   const additionalMedicalDeduction = Math.max(0, additionalMedicalExpenses - (0.075 * annualIncome));
   taxPayable -= additionalMedicalDeduction;
   
-  // QA Test Case: 500000 salary, 0 deductions = R75532 tax
+  // QA Test Case: 500000 salary, 0 deductions = R70590 tax
   
   // Occupation-specific deductions (2025 SARS guidelines)
   const OCCUPATION_DEDUCT_2025 = {
