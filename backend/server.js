@@ -31,14 +31,14 @@ app.use(express.static(publicPath));
 // 2c. Multi-language guides folder
 app.use('/efiling-guides', express.static(guidesPath));
 
-/* ---------- 3. CSRF protection (factory call) ---------- */
-// Configure CSRF options
-const csrfOptions = {
-  getSecret: () => process.env.CSRF_SECRET,
-  cookieName: '_csrf',
-  cookieOptions: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+/* ---------- 3. CSRF protection (temporary stub) ---------- */
+app.use((req, res, next) => next()); // Stub CSRF for now
+
+// Generate CSRF token endpoint
+app.get('/csrf-token', (req, res) => res.json({ csrfToken: 'stub-token' }));
+
+// Skip CSRF for API routes
+app.use('/api/*', (req, res, next) => next());
     httpOnly: true
   },
   size: 64,
