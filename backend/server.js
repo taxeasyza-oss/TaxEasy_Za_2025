@@ -8,7 +8,7 @@ const { doubleCsrf } = require("csrf-csrf");
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001; // Changed port to resolve conflict
 
 /* ---------- 1. Security & utility middleware ---------- */
 app.use(helmet({ contentSecurityPolicy: false }));
