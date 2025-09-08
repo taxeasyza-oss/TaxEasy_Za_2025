@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "test": "jest",
+    "test": "PORT=3002 jest",
     "lint": "eslint . --fix",
     "format": "prettier --write ."
   },
