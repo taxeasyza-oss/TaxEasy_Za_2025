@@ -39,17 +39,6 @@ app.get('/csrf-token', (req, res) => res.json({ csrfToken: 'stub-token' }));
 
 // Skip CSRF for API routes
 app.use('/api/*', (req, res, next) => next());
-    httpOnly: true
-  },
-  size: 64,
-  ignoredMethods: ['GET', 'HEAD', 'OPTIONS']
-};
-
-// Create CSRF protection middleware
-const { doubleCsrfProtection } = doubleCsrf(csrfOptions);
-
-// Apply CSRF protection
-app.use(doubleCsrfProtection);
 
 /* ---------- 4. API routes ---------- */
 app.get('/api/health', (req, res) => {
