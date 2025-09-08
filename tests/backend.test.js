@@ -35,7 +35,7 @@ describe('Tax Calculation 2025', () => {
     // Expected medical credits: 4368 + (2*4368) = 13104
     // Disability deduction: 1725
     expect(result.deductions.medical).toBe(13104);
-    expect(result.taxPayable).toBeLessThan(70000); // To be refined
+    expect(result.taxPayable).toBe(55761);
   });
 
   test('Retirement annuity deduction cap', () => {
