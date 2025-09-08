@@ -40,9 +40,13 @@ module.exports = function securityHeaders() {
     }
   };
 
-  // Custom CSRF middleware to exclude PayFast callback
+  // Custom CSRF middleware to exclude static assets and API endpoints
   const csrfProtection = (req, res, next) => {
-    if (req.method === 'GET' || req.path.startsWith("/payfast/callback") || req.path === "/css/main.css") {
+    if (req.method === 'GET' ||
+        req.path.startsWith("/payfast/callback") ||
+        req.path.startsWith("/css/") ||
+        req.path.startsWith("/js/") ||
+        req.path.startsWith("/images/")) {
       return next();
     }
     csrf({
