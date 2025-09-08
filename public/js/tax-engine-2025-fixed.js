@@ -29,8 +29,10 @@ class TaxEngine2025 {
     let tax = 0;
     for (const b of this.taxBrackets) {
       if (taxable > b.min) {
-        const slice = Math.min(taxable, b.max) - b.min;
-        tax += slice * b.rate;
+        const sliceStart = b.min;
+        const sliceEnd = Math.min(taxable, b.max);
+        const sliceAmount = sliceEnd > sliceStart ? sliceEnd - sliceStart + 1 : 0;
+        tax += sliceAmount * b.rate;
       }
     }
 
