@@ -85,9 +85,9 @@ function calculateTax(taxData) {
   // Apply rebates based on age
   let totalRebates = REBATES_2025.primary;
   if (ageGroup === '65to75') {
-    totalRebates += REBATES_2025.secondary;
+    totalRebates += REBATES_2025.over65;
   } else if (ageGroup === 'over75') {
-    totalRebates += REBATES_2025.secondary + REBATES_2025.tertiary;
+    totalRebates += REBATES_2025.over65 + REBATES_2025.over75;
   }
 
   // Apply medical tax credits
