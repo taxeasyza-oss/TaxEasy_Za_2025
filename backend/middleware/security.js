@@ -40,13 +40,19 @@ module.exports = function securityHeaders() {
     }
   };
 
-  const csrfProtection = csrf({
-    cookie: {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production'
+  // Custom CSRF middleware to exclude PayFast callback
+  const csrfProtection = (req, res, next) => {
+    if (req.path.startsWith("/payfast/callback")) {
+      return next();
     }
-  });
+    csrf({
+      cookie: {
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production'
+      }
+    })(req, res, next);
+  };
 
   return [
     helmet(),
