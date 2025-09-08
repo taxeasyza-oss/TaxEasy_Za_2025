@@ -42,7 +42,7 @@ module.exports = function securityHeaders() {
 
   // Custom CSRF middleware to exclude PayFast callback
   const csrfProtection = (req, res, next) => {
-    if (req.path.startsWith("/payfast/callback")) {
+    if (req.method === 'GET' || req.path.startsWith("/payfast/callback")) {
       return next();
     }
     csrf({
