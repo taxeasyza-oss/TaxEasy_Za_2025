@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-class TaxEngine2025 {
+module.exports = class TaxEngine2025 {
   constructor() {
     this.taxBrackets = [
       { min: 0,       max: 237100, rate: 0.18, base: 0 },
