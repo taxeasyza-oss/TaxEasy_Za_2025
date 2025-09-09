@@ -1,5 +1,5 @@
 // js/language/enhanced-language-handler.js
-class EnhancedLanguageSystem {
+export class EnhancedLanguageSystem {
   constructor() {
     this.currentLanguage = localStorage.getItem('tax_lang') || 'en';
     this.init();
