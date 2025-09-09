@@ -2,9 +2,9 @@
 class TaxEngine2025 {
   constructor() {
     this.taxBrackets = [
-      { min: 0,      max: 226000, rate: 0.18, base: 0 },
-      { min: 226001,  max: 353100, rate: 0.26, base: 40680 },
-      { min: 353101,  max: 488700, rate: 0.31, base: 73726 },
+      { min: 0,       max: 237100, rate: 0.18, base: 0 },
+      { min: 237101,  max: 370500, rate: 0.26, base: 42678 },
+      { min: 370501,  max: 512800, rate: 0.31, base: 77362 },
       { min: 488701,  max: 641400, rate: 0.36, base: 115762 },
       { min: 641401,  max: 817600, rate: 0.39, base: 170734 },
       { min: 817601,  max: 1731600, rate: 0.41, base: 239452 },
