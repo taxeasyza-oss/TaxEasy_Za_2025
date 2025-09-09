@@ -84,11 +84,10 @@ class TaxWizard {
                 const fields = occupationFields[selectedOccupation];
                 const gridHTML = fields.map(field => `
                     <div class="input-group">
-                        <label for="${field.id}">${field.label}</label>
-                        <input type="number" id="${field.id}" name="${field.id}" 
-                               placeholder="0.00" step="0.01" min="0" max="${field.max}">
-                        <div class="tooltip-icon" data-tooltip="${field.id}_tooltip">?</div>
-                        <div class="field-help">Max: R${field.max.toLocaleString()} - ${field.tooltip}</div>
+                        <label for="${field.name}">${field.label}</label>
+                        <input type="${field.type}" id="${field.name}" name="${field.name}"
+                               placeholder="0.00" step="0.01" min="0">
+                        <div class="tooltip-icon" data-tooltip="${field.name}_help">?</div>
                     </div>
                 `).join('');
                 
