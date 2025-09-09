@@ -110,57 +110,19 @@ class TaxWizard {
         });
     }
     
-    setupTooltips() {
-        // Enhanced tooltip system with occupation-specific content
+    setupTooltips(lang = 'en') {
+        // Multi-lingual tooltip system using translation data
         const tooltips = {
-            age_tooltip: `
-                <strong>Tax Thresholds (2025):</strong><br>
-                • Under 65: R95,750<br>
-                • 65-74 years: R148,217<br>
-                • 75+ years: R165,689
-            `,
-            basic_salary_tooltip: `
-                <strong>Code 3601:</strong> Regular monthly/annual salary before deductions.<br>
-                This is your gross salary as shown on your IRP5 certificate.
-            `,
-            bonus_tooltip: `
-                <strong>Code 3605:</strong> 13th cheque, performance bonuses, etc.<br>
-                Include all bonus payments received during the tax year.
-            `,
-            travel_allowance_tooltip: `
-                <strong>Code 3701:</strong> Monthly travel allowance.<br>
-                80% is typically taxable unless you can prove business use.
-            `,
-            pension_tooltip: `
-                <strong>Pension Fund Contributions:</strong><br>
-                Contributions to employer pension funds.<br>
-                Combined with RA limited to 27.5% of income or R350,000.
-            `,
-            ra_tooltip: `
-                <strong>Retirement Annuity:</strong><br>
-                Private retirement savings contributions.<br>
-                Tax deductible up to 27.5% of income or R350,000 annually.
-            `,
-            medical_aid_tooltip: `
-                <strong>Medical Aid Contributions:</strong><br>
-                Annual medical aid premiums paid.<br>
-                You'll also receive tax credits based on members and dependants.
-            `,
-            solar_pv_tooltip: `
-                <strong>Section 12B Deduction:</strong><br>
-                Solar panel installation costs.<br>
-                Deductible in year of installation, subject to limits.
-            `,
-            home_office_tooltip: `
-                <strong>Home Office Expenses:</strong><br>
-                Portion of home costs used exclusively for work.<br>
-                Include utilities, rent/bond interest, maintenance proportionally.
-            `,
-            occupation_tooltip: `
-                <strong>Occupation-Specific Deductions:</strong><br>
-                Select your primary occupation to unlock relevant<br>
-                deductions and get personalized tax advice.
-            `
+            age_tooltip: translations[lang]?.age_tooltip || translations.en.age_tooltip,
+            basic_salary_tooltip: translations[lang]?.basic_salary_tooltip || translations.en.basic_salary_tooltip,
+            bonus_tooltip: translations[lang]?.bonus_tooltip || translations.en.bonus_tooltip,
+            travel_allowance_tooltip: translations[lang]?.travel_allowance_tooltip || translations.en.travel_allowance_tooltip,
+            pension_tooltip: translations[lang]?.pension_tooltip || translations.en.pension_tooltip,
+            ra_tooltip: translations[lang]?.ra_tooltip || translations.en.ra_tooltip,
+            medical_aid_tooltip: translations[lang]?.medical_aid_tooltip || translations.en.medical_aid_tooltip,
+            solar_pv_tooltip: translations[lang]?.solar_pv_tooltip || translations.en.solar_pv_tooltip,
+            home_office_tooltip: translations[lang]?.home_office_tooltip || translations.en.home_office_tooltip,
+            occupation_tooltip: translations[lang]?.occupation_tooltip || translations.en.occupation_tooltip
         };
         
         // Create tooltip element
