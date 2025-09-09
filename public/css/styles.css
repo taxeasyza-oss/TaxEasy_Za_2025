@@ -15,12 +15,124 @@ input, button {
   color: #A3FF00;
 }
 
-.step {
-  display: none;
+/* ======================
+   5-Step Wizard Styles
+   ====================== */
+.wizard-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  margin: 2rem 0;
 }
 
-.step.active {
+.wizard-page {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.wizard-page.active {
   display: block;
+}
+
+.page-dots {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.page-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2D3E50;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-dots .dot.active {
+  background: #A3FF00;
+  transform: scale(1.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======================
+   Language Switcher
+   ====================== */
+.language-selector {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.language-flag {
+  width: 24px;
+  height: 24px;
+  margin: 0 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.language-flag:hover {
+  transform: scale(1.1);
+}
+
+/* ======================
+   Tooltip System
+   ====================== */
+.tooltip-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #3b82f6;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  cursor: help;
+  margin-left: 0.5rem;
+}
+
+.tooltip-popup {
+  position: absolute;
+  background: #1B2A41;
+  color: #A3FF00;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  max-width: 280px;
+}
+
+/* ======================
+   Occupation-Specific Fields
+   ====================== */
+.occupation-specific {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.it-professional-fields {
+  border-left: 4px solid #3b82f6;
+}
+
+.healthcare-fields {
+  border-left: 4px solid #10b981;
+}
+
+.educator-fields {
+  border-left: 4px solid #f59e0b;
 }
 
 @media (max-width: 768px) {
