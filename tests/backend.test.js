@@ -1,4 +1,9 @@
 const { calculateTax } = require('../backend/tax-calculation');
+const app = require('../backend/server');
+
+afterAll(async () => {
+  await new Promise(resolve => app.close(resolve));
+});
 
 test('server starts', async () => {
   // Verify server module exports
