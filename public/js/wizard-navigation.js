@@ -817,7 +817,7 @@ class TaxWizard {
         });
         
         // Clear saved progress
-        localStorage.removeItem('taxeasy_progress');
+        sessionStorage.removeItem('taxeasy_progress');
         
         // Reset wizard state
         this.currentPage = 1;
