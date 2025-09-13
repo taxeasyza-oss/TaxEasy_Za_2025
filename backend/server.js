@@ -127,7 +127,7 @@ class SARSTaxEngine2025 {
                 );
                 
                 if (taxableInBracket > 0) {
-                    const bracketTax = taxableInBracket * bracket.rate;
+                    const bracketTax = bracket.base + (taxableInBracket * bracket.rate);
                     tax += bracketTax;
 
                     bracketBreakdown.push({
