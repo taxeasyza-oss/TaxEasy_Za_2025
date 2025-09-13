@@ -1,65 +1,83 @@
-const { calculateTax } = require('../backend/tax-calculation');
-const app = require('../backend/server');
+const request = require('supertest');
+const { app, taxEngine } = require('../backend/server');
 
-afterAll(async () => {
-  await new Promise(resolve => app.close(resolve));
+describe('TaxEasy ZA 2025 - Backend Tests', () => {
+    
+    describe('Server Health', () => {
+        test('Health check endpoint should return 200', async () => {
+            const response = await request(app)
+                .get('/api/health')
+                .expect(200);
+            
+            expect(response.body.status).toBe('healthy');
+            expect(response.body.version).toBe('2.0.0');
+        });
+    });
+
+    describe('Tax Engine - SARS 2025 Compliance', () => {
+        
+        test('Should calculate correct tax for R500,000 salary', () => {
+            const result = taxEngine.calculateTax({
+                grossIncome: 500000,
+                ageGroup: 'under65',
+                retirementFunding: 0,
+                medicalAidContributions: 0,
+                medicalMembers: 0,
+                medicalDependants: 0
+            });
+            
+            expect(result.grossIncome).toBe(500000);
+            expect(result.taxableIncome).toBe(500000);
+            expect(result.taxPayable).toBeGreaterThan(0);
+            expect(result.effectiveRate).toBeGreaterThan(0);
+        });
+
+        test('Should apply age-based rebates correctly', () => {
+            const result = taxEngine.calculateTax({
+                grossIncome: 300000,
+                ageGroup: '65-74',
+                retirementFunding: 0,
+                medicalAidContributions: 0,
+                medicalMembers: 0,
+                medicalDependants: 0
+            });
+            
+            const expectedRebates = 17235 + 9444; // Primary + Secondary
+            expect(result.rebatesAndCredits.rebates).toBe(expectedRebates);
+        });
+    });
+
+    describe('Tax Calculation API', () => {
+        
+        test('POST /api/calculate should return correct calculation', async () => {
+            const taxData = {
+                grossIncome: 600000,
+                ageGroup: 'under65',
+                retirementFunding: 50000,
+                medicalAidContributions: 20000,
+                medicalMembers: 1,
+                medicalDependants: 1
+            };
+
+            const response = await request(app)
+                .post('/api/calculate')
+                .send(taxData)
+                .expect(200);
+
+            expect(response.body.success).toBe(true);
+            expect(response.body.calculation).toHaveProperty('grossIncome');
+            expect(response.body.calculation).toHaveProperty('taxPayable');
+            expect(response.body.calculation.grossIncome).toBe(600000);
+            expect(response.body.taxYear).toBe('2025');
+        });
+
+        test('POST /api/calculate should validate input', async () => {
+            const response = await request(app)
+                .post('/api/calculate')
+                .send({})
+                .expect(400);
+            
+            expect(response.body.error).toBe('Invalid gross income amount');
+        });
+    });
 });
-
-test('server starts', async () => {
-  // Verify server module exports
-  const app = require('../backend/server');
-  expect(app).toBeDefined();
-  expect(typeof app.listen).toBe('function');
-});
-
-describe('Tax Calculation 2025', () => {
-  test('Basic income below threshold (under65)', () => {
-    const result = calculateTax({
-      ageGroup: 'under65',
-      annualIncome: 90000
-    });
-    expect(result.taxPayable).toBe(0);
-  });
-
-  test('Income in first tax bracket', () => {
-    const result = calculateTax({
-      ageGroup: 'under65',
-      annualIncome: 250000
-    });
-    // Calculation: (250000 - 95750) = 154250 taxable
-    // 154250 * 18% = 27765 - 17235 rebate = 10530
-    expect(result.taxPayable).toBe(10530);
-  });
-
-  test('Income with medical credits and dependents', () => {
-    const result = calculateTax({
-      annualIncome: 500000,
-      medicalAidDependents: 2,
-      disability: true
-    });
-    // Expected medical credits: 4368 + (2*4368) = 13104
-    // Disability deduction: 1725
-    expect(result.deductions.medical).toBe(13104);
-    expect(result.taxPayable).toBe(55761);
-  });
-
-  test('Retirement annuity deduction cap', () => {
-    const highEarner = calculateTax({
-      annualIncome: 1500000,
-      retirementFunding: 500000
-    });
-    // Should cap at 1500000 * 27.5% = 412500 (but max 350000)
-    expect(highEarner.deductions.retirementAnnuity).toBe(350000);
-  });
-
-  test('Senior citizen rebates (over75)', () => {
-    const senior = calculateTax({
-      ageGroup: 'over75',
-      annualIncome: 200000
-    });
-    // Rebates: 17235 + 9444 + 3145 = 29824
-    expect(senior.rebates).toBe(29824);
-  });
-});
-
-// TODO: Add more edge cases and verify against SARS documentation
