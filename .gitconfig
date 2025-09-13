@@ -1,0 +1,7 @@
+[user]
+    name = YOUR_NAME
+    email = YOUR_EMAIL
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+[pull]
+    rebase = false
