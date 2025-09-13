@@ -42,7 +42,7 @@ class SARSTaxEngine2025 {
       medicalDependants = 0
     } = deductions;
 
-    const raDeductible = Math.min(retirementFunding, gross * 0.275, 350000);
+    const raDeductible = Math.min(retirementFunding, Math.min(gross * 0.275, 350000));
     const taxable = Math.max(gross - raDeductible, 0);
 
     if (taxable <= this.thresholds[age]) {
