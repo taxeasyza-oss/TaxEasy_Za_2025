@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>TaxEasy ZA 2025 - Language & Tooltip Test</title>
+    <style>
+        .language-test { border: 2px solid #17a2b8; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .tooltip-test { position: relative; display: inline-block; cursor: help; }
+        .tooltip-text { visibility: hidden; width: 300px; background-color: #333; color: #fff; text-align: left; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -150px; }
+        .tooltip-test:hover .tooltip-text { visibility: visible; }
+        .language-selector { background: #e3f2fd; border: 2px solid #2196f3; padding: 10px; margin: 10px 0; }
+        .pass { color: #28a745; font-weight: bold; }
+        .language-content { background: #f0f8ff; padding: 15px; margin: 10px 0; border-left: 4px solid #2196f3; }
+    </style>
+</head>
+<body>
+    <h1>🌍 Multi-Language & Tooltip System Test</h1>
+    
+    <!-- Language Selector -->
+    <div class="language-test">
+        <h2>🌐 Language Switching System</h2>
+        
+        <div class="language-selector">
+            <label for="languageSelect"><strong>Select Language:</strong></label>
+            <select id="languageSelect" onchange="switchLanguage(this.value)">
+                <option value="en">🇬🇧 English</option>
+                <option value="af">🇿🇦 Afrikaans</option>
+                <option value="zu">🇿🇦 isiZulu</option>
+                <option value="xh">🇿🇦 isiXhosa</option>
+                <option value="st">🇿🇦 Sesotho</option>
+            </select>
+        </div>
+        
+        <div id="languageContent" class="language-content">
+            <h3 id="pageTitle">Personal Information</h3>
+            <p id="pageDescription">Enter your basic details for accurate tax calculation</p>
+            
+            <div class="pass">✅ English (Default) - Active</div>
+            <div>⚪ Afrikaans - Available</div>
+            <div>⚪ isiZulu - Available</div>
+            <div>⚪ isiXhosa - Available</div>
+            <div>⚪ Sesotho - Available</div>
+        </div>
+    </div>
+    
+    <!-- Tooltips System -->
+    <div class="language-test">
+        <h2>💡 Contextual Tooltips System</h2>
+        
+        <div class="tooltip-test">
+            <strong>Age Group</strong> ❓
+            <span class="tooltip-text">
+                <strong>Age Group Information:</strong><br>
+                Different tax thresholds apply based on your age:<br>
+                • Under 65: R95,750 threshold<br>
+                • 65-74: R148,217 threshold<br>
+                • 75+: R165,689 threshold<br>
+                <em>SARS 2025 Tax Tables</em>
+            </span>
+        </div>
+        
+        <br><br>
+        
+        <div class="tooltip-test">
+            <strong>Retirement Funding</strong> ❓
+            <span class="tooltip-text">
+                <strong>Retirement Funding (Section 11F):</strong><br>
+                Tax deductible up to 27.5% of income or R350,000 annually<br>
+                Includes: Pension funds, provident funds, retirement annuities<br>
+                <em>Maximum deduction: R350,000 per tax year</em>
+            </span>
+        </div>
+        
+        <br><br>
+        
+        <div class="tooltip-test">
+            <strong>Medical Aid Contributions</strong> ❓
+            <span class="tooltip-text">
+                <strong>Medical Aid Tax Credits (Section 6A):</strong><br>
+                R364 per month for main member and first dependant<br>
+                R246 per month for additional dependants<br>
+                <em>Monthly tax credit applied directly</em>
+            </span>
+        </div>
+        
+        <br><br>
+        
+        <div class="tooltip-test">
+            <strong>Travel Allowance</strong> ❓
+            <span class="tooltip-text">
+                <strong>Travel Allowance (Code 3701):</strong><br>
+                80% is taxable unless business use can be proven<br>
+                Keep logbook for business kilometers<br>
+                <em>Business use reduces taxable portion</em>
+            </span>
+        </div>
+    </div>
+    
+    <!-- Occupation-Specific Tooltips -->
+    <div class="language-test">
+        <h2>👔 Occupation-Specific Tooltips</h2>
+        
+        <div class="tooltip-test">
+            <strong>IT Professional Deductions</strong> ❓
+            <span class="tooltip-text">
+                <strong>IT Professional Specific:</strong><br>
+                • Home office expenses (if remote work)<br>
+                • Internet and phone costs<br>
+                • Software licenses and subscriptions<br>
+                • Professional development courses<br>
+                • IT equipment depreciation
+            </span>
+        </div>
+        
+        <div class="tooltip-test">
+            <strong>Healthcare Worker Deductions</strong> ❓
+            <span class="tooltip-text">
+                <strong>Healthcare Worker Specific:</strong><br>
+                • Professional registration fees<br>
+                • Medical equipment and supplies<br>
+                • Uniform and protective clothing<br>
+                • Continuing professional development<br>
+                • Professional indemnity insurance
+            </span>
+        </div>
+    </div>
+    
+    <script>
+        // Language switching simulation
+        function switchLanguage(lang) {
+            const translations = {
+                en: {
+                    title: "Personal Information",
+                    description: "Enter your basic details for accurate tax calculation"
+                },
+                af: {
+                    title: "Persoonlike Inligting",
+                    description: "Voer jou basiese besonderhede in vir akkurate belastingberekening"
+                },
+                zu: {
+                    title: "Imininingwane Yomuntu",
+                    description: "Faka imininingwane yakho eyisisekelo ukuze kubalwe ngokucophelela intela"
+                },
+                xh: {
+                    title: "Iinkcukacha zoBuntu",
+                    description: "Ngenisa iinkcukacha zakho ezisiseko ukuze kubalwe ngokuchanekile urhafu"
+                },
+                st: {
+                    title: "Lintlha tsa Botho",
+                    description: "Kenya lintlha tsa hao tsa motheo ho bala le ho nepahala lekgetho"
+                }
+            };
+            
+            if (translations[lang]) {
+                document.getElementById('pageTitle').textContent = translations[lang].title;
+                document.getElementById('pageDescription').textContent = translations[lang].description;
+                
+                // Update active language indicator
+                document.querySelectorAll('#languageContent > div').forEach(div => {
+                    div.className = div.className.replace('✅', '⚪');
+                });
+                
+                const activeLang = Array.from(document.querySelectorAll('#languageContent > div')).find(
+                    div => div.textContent.includes(lang.toUpperCase())
+                );
+                if (activeLang) activeLang.className = 'pass';
+                
+                console.log(`✅ Language switched to: ${lang}`);
+            }
+        }
+        
+        // Initialize
+        console.log('🌍 Multi-language system initialized');
+        console.log('💡 Tooltip system with SARS code explanations active');
+    </script>
+</body>
+</html>
