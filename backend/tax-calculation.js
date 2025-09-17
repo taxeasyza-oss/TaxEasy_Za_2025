@@ -181,3 +181,12 @@ function calculateTax(taxData) {
   }
 
 module.exports = { calculateTax, TAX_THRESHOLDS_2025, TAX_RATES_2025 };
+  // ... your existing code ...
+
+  } catch (error) {
+    console.error('Enhanced tax calculation error:', error);
+    throw error;
+  }
+} // ← This closing brace was missing!
+
+module.exports = { calculateTax, TAX_THRESHOLDS_2025, TAX_RATES_2025 };
