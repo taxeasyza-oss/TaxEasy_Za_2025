@@ -33,18 +33,22 @@ const MEDICAL_CREDITS_2025 = {
 
 // Calculate South African income tax
 function calculateTax(taxData) {
-  const {
-    ageGroup = 'under65',
-    annualIncome = 0,
-    retirementFunding = 0,
-    medicalAidContributions = 0,
-    medicalAidDependents = 0,
-    travelAllowance = 0,
-    otherDeductions = 0,
-    renewableEnergyExpenses = 0,
-    disability = false,
-    additionalMedicalExpenses = 0
-  } = taxData;
+  try {
+    const {
+      ageGroup = 'under65',
+      annualIncome = 0,
+      retirementFunding = 0,
+      medicalAidContributions = 0,
+      medicalAidDependents = 0,
+      travelAllowance = 0,
+      otherDeductions = 0,
+      renewableEnergyExpenses = 0,
+      hasDisability = false,
+      additionalMedicalExpenses = 0,
+      occupationType = null,
+      homeOfficeExpenses = 0,
+      professionalExpenses = 0
+    } = taxData;
 
   // Calculate taxable income
   let taxableIncome = annualIncome - TAX_THRESHOLDS_2025[ageGroup];
@@ -116,9 +120,19 @@ function calculateTax(taxData) {
     );
   }
 
+  // Home office deduction (SARS COVID-19 provisions)
+  const homeOfficeDeduction = Math.min(homeOfficeExpenses, 50000);
+  taxableIncome -= homeOfficeDeduction;
+
+  // Professional expenses deduction
+  const professionalDeduction = professionalExpenses > 0
+    ? Math.min(professionalExpenses, 150000)
+    : 0;
+  taxableIncome -= professionalDeduction;
+
   // Disability additional deduction
-  if (disability) {
-    taxPayable -= DISABILITY_DEDUCTION; // Maintain consistency with definition
+  if (hasDisability) {
+    taxPayable -= DISABILITY_DEDUCTION;
   }
 
   taxPayable = Math.max(0, taxPayable - totalRebates - medicalCredits);
@@ -135,10 +149,16 @@ function calculateTax(taxData) {
       retirementAnnuity: raDeduction,
       medical: medicalCredits,
       renewableEnergy: energyDeduction,
-      other: otherDeductions
+      other: otherDeductions,
+      homeOffice: homeOfficeDeduction,
+      professional: professionalDeduction
     },
     rebates: totalRebates
   };
+  } catch (error) {
+    console.error('Enhanced tax calculation error:', error);
+    throw error;
+  }
 }
 
 module.exports = { calculateTax, TAX_THRESHOLDS_2025, TAX_RATES_2025 };
