@@ -38,8 +38,8 @@ function calculateTax(taxData) {
       ageGroup = 'under65',
       annualIncome = 0,
       retirementFunding = 0,
-      medicalAidContributions = 0,
-      medicalAidDependents = 0,
+      medicalMembers = 0,
+      medicalDependants = 0,
       travelAllowance = 0,
       otherDeductions = 0,
       renewableEnergyExpenses = 0,
@@ -140,6 +140,26 @@ function calculateTax(taxData) {
   // Calculate effective tax rate
   const effectiveTaxRate = annualIncome > 0 ? (taxPayable / annualIncome) * 100 : 0;
 
+  // Validate calculation inputs
+  if (annualIncome > 50000000) {
+    throw new Error('Annual income exceeds maximum limit of R50,000,000');
+  }
+  
+  if (medicalDependants > 20) {
+    throw new Error('Medical aid dependants cannot exceed 20');
+  }
+  
+  if (medicalMembers > 10) {
+    throw new Error('Medical aid members cannot exceed 10');
+  }
+
+  // Log calculation details
+  console.log(`Tax calculation for ${occupationType || 'individual'}:
+    Income: R${annualIncome.toLocaleString()},
+    Age Group: ${ageGroup},
+    Medical Members: ${medicalMembers},
+    Dependants: ${medicalDependants}`);
+
   return {
     taxableIncome: Math.max(0, taxableIncome),
     taxPayable: Math.round(taxPayable),
@@ -159,6 +179,5 @@ function calculateTax(taxData) {
     console.error('Enhanced tax calculation error:', error);
     throw error;
   }
-}
 
 module.exports = { calculateTax, TAX_THRESHOLDS_2025, TAX_RATES_2025 };
