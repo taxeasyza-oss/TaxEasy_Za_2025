@@ -13,6 +13,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // ==========================================
 // SECURITY & PERFORMANCE MIDDLEWARE
@@ -46,42 +47,6 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 200 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Enhanced input validation middleware
-const validateTaxInput = (req, res, next) => {
-  const { grossIncome, ageGroup, medicalMembers, medicalDependants } = req.body;
-  
-  const errors = [];
-  
-  // Income validation
-  if (!grossIncome || grossIncome < 0 || grossIncome > 50000000) {
-    errors.push('Gross income must be between R0 and R50,000,000');
-  }
-  
-  // Age group validation
-  const validAgeGroups = ['under65', '65-74', '75+'];
-  if (ageGroup && !validAgeGroups.includes(ageGroup)) {
-    errors.push('Age group must be: under65, 65-74, or 75+');
-  }
-  
-  // Medical validation
-  if (medicalMembers < 0 || medicalMembers > 10) {
-    errors.push('Medical members must be between 0 and 10');
-  }
-  
-  if (medicalDependants < 0 || medicalDependants > 20) {
-    errors.push('Medical dependants must be between 0 and 20');
-  }
-  
-  if (errors.length > 0) {
-    return res.status(400).json({
-      error: 'Validation failed',
-      details: errors,
-      timestamp: new Date().toISOString()
-    });
-  }
-  
-  next();
-};
 // ==========================================
 // TAX CALCULATION ENGINE
 // ==========================================
@@ -173,7 +138,7 @@ class SARSTaxEngine2025 {
                 );
                 
                 if (taxableInBracket > 0) {
-                    const bracketTax = bracket.base + (taxableInBracket * bracket.rate);
+                    const bracketTax = taxableInBracket * bracket.rate;
                     tax += bracketTax;
 
                     bracketBreakdown.push({
@@ -287,31 +252,49 @@ app.get('/api/health', (req, res) => {
     res.json({
         status: 'healthy',
         timestamp: new Date().toISOString(),
-        version: '2.0.0',
+        version: '2.1.0',
         environment: process.env.NODE_ENV || 'development',
-        uptime: process.uptime()
+        deployment: 'render',
+        uptime: process.uptime(),
+        features: ['tax-calculator', 'multi-language', 'sars-2025']
     });
 });
 
-app.post('/api/calculate', validateTaxInput, (req, res) => {
+app.post('/api/calculate', (req, res) => {
     try {
-        const taxData = req.body;
+        console.log('Tax calculation request:', {
+            income: req.body.grossIncome,
+            ageGroup: req.body.ageGroup,
+            timestamp: new Date().toISOString()
+        });
 
-        // Calculate tax
+        const taxData = req.body;
+        
+        // Enhanced validation
+        if (!taxData.grossIncome || taxData.grossIncome < 0) {
+            return res.status(400).json({
+                error: 'Invalid gross income amount',
+                details: 'Gross income must be a positive number',
+                timestamp: new Date().toISOString()
+            });
+        }
+
         const result = taxEngine.calculateTax(taxData);
         
         res.json({
             success: true,
             calculation: result,
             calculatedAt: new Date().toISOString(),
-            taxYear: '2025'
+            taxYear: '2025',
+            apiVersion: '2.1.0'
         });
 
     } catch (error) {
         console.error('Tax calculation error:', error);
         res.status(500).json({
             error: 'Tax calculation failed',
-            details: error.message
+            details: error.message,
+            timestamp: new Date().toISOString()
         });
     }
 });
@@ -323,8 +306,26 @@ app.post('/api/calculate', validateTaxInput, (req, res) => {
 const rootPath = path.resolve(__dirname, '..');
 const publicPath = path.resolve(__dirname, '../public');
 
-app.use(express.static(rootPath, { extensions: ['html'] }));
+// Enhanced static file serving
+app.use(express.static(rootPath, {
+    extensions: ['html'],
+    maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0',
+    setHeaders: (res, path) => {
+        if (path.endsWith('.css')) {
+            res.setHeader('Cache-Control', 'public, max-age=86400');
+        } else if (path.endsWith('.js')) {
+            res.setHeader('Cache-Control', 'public, max-age=86400');
+        } else if (path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.svg')) {
+            res.setHeader('Cache-Control', 'public, max-age=604800');
+        }
+    }
+}));
+
 app.use(express.static(publicPath));
+app.use(express.static(rootPath, { 
+    extensions: ['html'],
+    dotfiles: 'ignore'
+}));
 
 const RESERVED_PATHS = ['/api', '/efiling-guides', '/faq', '/payment-', '/public'];
 
