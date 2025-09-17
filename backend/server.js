@@ -36,6 +36,42 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 200 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Enhanced input validation middleware
+const validateTaxInput = (req, res, next) => {
+  const { grossIncome, ageGroup, medicalMembers, medicalDependants } = req.body;
+  
+  const errors = [];
+  
+  // Income validation
+  if (!grossIncome || grossIncome < 0 || grossIncome > 50000000) {
+    errors.push('Gross income must be between R0 and R50,000,000');
+  }
+  
+  // Age group validation
+  const validAgeGroups = ['under65', '65-74', '75+'];
+  if (ageGroup && !validAgeGroups.includes(ageGroup)) {
+    errors.push('Age group must be: under65, 65-74, or 75+');
+  }
+  
+  // Medical validation
+  if (medicalMembers < 0 || medicalMembers > 10) {
+    errors.push('Medical members must be between 0 and 10');
+  }
+  
+  if (medicalDependants < 0 || medicalDependants > 20) {
+    errors.push('Medical dependants must be between 0 and 20');
+  }
+  
+  if (errors.length > 0) {
+    return res.status(400).json({
+      error: 'Validation failed',
+      details: errors,
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  next();
+};
 // ==========================================
 // TAX CALCULATION ENGINE
 // ==========================================
@@ -247,26 +283,9 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-app.post('/api/calculate', (req, res) => {
+app.post('/api/calculate', validateTaxInput, (req, res) => {
     try {
         const taxData = req.body;
-        
-        // Input validation
-        if (!taxData.grossIncome || taxData.grossIncome < 0) {
-            return res.status(400).json({
-                error: 'Invalid gross income amount',
-                details: 'Gross income must be a positive number'
-            });
-        }
-
-        // Validate age group
-        const validAgeGroups = ['under65', '65-74', '75+'];
-        if (taxData.ageGroup && !validAgeGroups.includes(taxData.ageGroup)) {
-            return res.status(400).json({
-                error: 'Invalid age group',
-                details: 'Age group must be one of: under65, 65-74, 75+'
-            });
-        }
 
         // Calculate tax
         const result = taxEngine.calculateTax(taxData);
