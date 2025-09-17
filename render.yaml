@@ -1,15 +1,31 @@
-# render.yaml
+# Production-ready render.yaml with optimizations
 services:
   - type: web
     name: taxeasy-za-2025
     env: node
-    plan: free
-    buildCommand: npm install
+    plan: starter  # Use 'standard' for production
+    buildCommand: npm ci --only=production && npm run build
     startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=4096"
       - key: CSRF_SECRET
         generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
