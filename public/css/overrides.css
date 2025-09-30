@@ -1,0 +1,622 @@
+/* BEGIN PRESERVATION OVERRIDES - DO NOT EDIT ABOVE */
+
+/* FIX-001: Color contrast improvements for WCAG 2.2 AA compliance */
+/* Light mode: minimum 4.5:1 contrast ratio */
+.text-muted {
+    color: #495057 !important; /* Improved from light gray */
+}
+
+.btn-secondary {
+    background-color: #495057 !important;
+    border-color: #495057 !important;
+    color: #ffffff !important;
+}
+
+.form-control {
+    border-color: #495057 !important;
+}
+
+.form-control:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+/* Dark mode: minimum 7:1 contrast ratio */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212 !important;
+        color: #ffffff !important;
+    }
+    
+    .text-muted {
+        color: #e0e0e0 !important;
+    }
+    
+    .card {
+        background-color: #1e1e1e !important;
+        border-color: #333333 !important;
+    }
+    
+    .form-control {
+        background-color: #2d2d2d !important;
+        border-color: #555555 !important;
+        color: #ffffff !important;
+    }
+}
+
+/* FIX-002: Price visibility enhancement */
+.price-display {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #28a745 !important;
+    margin-top: 8px !important;
+    text-align: center !important;
+}
+
+/* FIX-003: Language switcher sticky positioning */
+.language-switcher {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 8px 0 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+/* FIX-004: Focus rings for keyboard navigation */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+a:focus {
+    outline: 2px solid #007bff !important;
+    outline-offset: 2px !important;
+}
+
+/* FIX-005: Mobile numeric input styling */
+input[inputmode="numeric"] {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+}
+
+/* FIX-006: Real-time validation styling */
+.form-control.is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.invalid-feedback {
+    display: block !important;
+    color: #dc3545 !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.25rem !important;
+}
+
+/* FIX-007: Progress bar enhancement */
+.progress-bar-enhanced {
+    height: 8px !important;
+    background-color: #e9ecef !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+}
+
+.progress-bar-enhanced .progress-fill {
+    height: 100% !important;
+    background: linear-gradient(90deg, #007bff, #28a745) !important;
+    transition: width 0.3s ease !important;
+}
+
+/* FIX-008: Dark mode toggle styling */
+.dark-mode-toggle {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background-color: #007bff !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 50px !important;
+    height: 50px !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+    z-index: 1000 !important;
+}
+
+/* FIX-009: POPIA consent banner styling */
+.popia-banner {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background-color: #f8f9fa !important;
+    border-bottom: 2px solid #007bff !important;
+    padding: 15px !important;
+    z-index: 9999 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.popia-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+}
+
+.popia-text {
+    flex: 1 !important;
+}
+
+.popia-actions {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+/* FIX-010: Tax result display enhancement */
+.tax-result-box {
+    border: 2px solid #28a745 !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    margin: 20px 0 !important;
+    text-align: center !important;
+    background-color: #f8fff9 !important;
+}
+
+.tax-result-box.owing {
+    border-color: #dc3545 !important;
+    background-color: #fff8f8 !important;
+}
+
+.tax-result-amount {
+    font-size: 2rem !important;
+    font-weight: bold !important;
+    color: #28a745 !important;
+}
+
+.tax-result-box.owing .tax-result-amount {
+    color: #dc3545 !important;
+}
+
+/* END PRESERVATION OVERRIDES */
+
+
+/* ===========================================
+   BEGIN FIX-#PROMO-CODES promotional code system – DO NOT EDIT ABOVE
+   =========================================== */
+
+/* Promotional code section styling */
+.promo-code-section {
+    margin: 1rem 0 !important;
+    padding: 1rem !important;
+    border: 1px solid #ddd !important;
+    border-radius: 5px !important;
+    background-color: #f9f9f9 !important;
+    transition: all 0.3s ease !important;
+}
+
+.promo-code-section h6 {
+    margin: 0 0 0.5rem 0 !important;
+    font-weight: 600 !important;
+    color: #495057 !important;
+}
+
+.promo-code-section input[type="text"] {
+    flex: 1 !important;
+    padding: 0.5rem !important;
+    border: 1px solid #ccc !important;
+    border-radius: 3px !important;
+    font-size: 0.9rem !important;
+    transition: border-color 0.2s ease !important;
+}
+
+.promo-code-section input[type="text"]:focus {
+    border-color: #007bff !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25) !important;
+}
+
+.promo-code-section input[type="text"]:disabled {
+    background-color: #e9ecef !important;
+    opacity: 0.6 !important;
+}
+
+.promo-code-section .btn {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9rem !important;
+    white-space: nowrap !important;
+}
+
+.promo-code-section .btn:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+/* Promotional code message styling */
+.promo-message {
+    margin-top: 0.5rem !important;
+    font-size: 0.9rem !important;
+    padding: 0.5rem !important;
+    border-radius: 3px !important;
+    border: 1px solid transparent !important;
+}
+
+.promo-message.success {
+    color: #155724 !important;
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+}
+
+.promo-message.error {
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+}
+
+/* Show promo code link styling */
+#showPromoCodeLink {
+    color: #007bff !important;
+    text-decoration: underline !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    transition: color 0.2s ease !important;
+}
+
+#showPromoCodeLink:hover {
+    color: #0056b3 !important;
+    text-decoration: none !important;
+}
+
+/* Professional report button when promo code is applied */
+#purchaseProfessionalReport.promo-applied {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    color: white !important;
+}
+
+#purchaseProfessionalReport.promo-applied:hover {
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+}
+
+/* Dark mode support for promotional code elements */
+@media (prefers-color-scheme: dark) {
+    .promo-code-section {
+        background-color: #2d2d2d !important;
+        border-color: #555555 !important;
+    }
+    
+    .promo-code-section h6 {
+        color: #e0e0e0 !important;
+    }
+    
+    .promo-code-section input[type="text"] {
+        background-color: #3d3d3d !important;
+        border-color: #666666 !important;
+        color: #ffffff !important;
+    }
+    
+    .promo-code-section input[type="text"]:disabled {
+        background-color: #4d4d4d !important;
+    }
+    
+    .promo-message.success {
+        color: #d1e7dd !important;
+        background-color: #0f2419 !important;
+        border-color: #1a4c2e !important;
+    }
+    
+    .promo-message.error {
+        color: #f8d7da !important;
+        background-color: #2c0b0e !important;
+        border-color: #58151c !important;
+    }
+    
+    #showPromoCodeLink {
+        color: #66b3ff !important;
+    }
+    
+    #showPromoCodeLink:hover {
+        color: #4da6ff !important;
+    }
+}
+
+/* Mobile responsiveness for promotional code section */
+@media (max-width: 768px) {
+    .promo-code-section > div {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    
+    .promo-code-section input[type="text"] {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .promo-code-section .btn {
+        width: 100% !important;
+    }
+}
+
+/* ===========================================
+   END FIX-#PROMO-CODES promotional code system
+   =========================================== */
+
+
+
+/* BEGIN FIX-#PROMO-CODES promotional code modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.input-group input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-group button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.input-group button:hover {
+    background-color: #0056b3;
+}
+
+.promo-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.promo-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.promo-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.promo-code-link {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Dark mode support for modal */
+@media (prefers-color-scheme: dark) {
+    .modal-content {
+        background-color: #2d2d2d;
+        border-color: #555555;
+        color: #e0e0e0;
+    }
+    .close-button {
+        color: #e0e0e0;
+    }
+    .close-button:hover,
+    .close-button:focus {
+        color: #ffffff;
+    }
+    .input-group input {
+        background-color: #3d3d3d;
+        border-color: #666666;
+        color: #ffffff;
+    }
+    .input-group button {
+        background-color: #0056b3;
+    }
+    .input-group button:hover {
+        background-color: #003f80;
+    }
+    .promo-message.success {
+        background-color: #0f2419;
+        color: #d1e7dd;
+        border-color: #1a4c2e;
+    }
+    .promo-message.error {
+        background-color: #2c0b0e;
+        color: #f8d7da;
+        border-color: #58151c;
+    }
+    .promo-code-link {
+        color: #66b3ff;
+    }
+    .promo-code-link:hover {
+        color: #4da6ff;
+    }
+}
+/* END FIX-#PROMO-CODES */
+
+
+
+
+/* ===========================================
+   BEGIN FIX-TOOLTIP-VISIBILITY tooltip visibility improvements
+   =========================================== */
+
+/* Enhanced tooltip styling for better visibility */
+.tooltip-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    color: #007bff !important; /* Blue color for better visibility */
+    font-weight: bold !important;
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    text-align: center !important;
+    line-height: 16px !important;
+    border-radius: 50% !important;
+    background-color: #007bff !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.tooltip-icon:hover {
+    background-color: #0056b3 !important;
+    transform: scale(1.1) !important;
+    transition: all 0.2s ease !important;
+}
+
+.tooltip-text {
+    visibility: hidden !important;
+    width: 250px !important;
+    background-color: #2c3e50 !important; /* Dark background for better contrast */
+    color: #ffffff !important; /* White text for maximum contrast */
+    text-align: left !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    position: absolute !important;
+    z-index: 9999 !important; /* High z-index to appear above other elements */
+    bottom: 125% !important;
+    left: 50% !important;
+    margin-left: -125px !important; /* Center the tooltip */
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid #34495e !important;
+}
+
+.tooltip-text::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    margin-left: -8px !important;
+    border-width: 8px !important;
+    border-style: solid !important;
+    border-color: #2c3e50 transparent transparent transparent !important;
+}
+
+.tooltip-icon:hover + .tooltip-text,
+.tooltip-icon:focus + .tooltip-text {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Dark mode support for tooltips */
+@media (prefers-color-scheme: dark) {
+    .tooltip-icon {
+        background-color: #66b3ff !important;
+        border-color: #1a1a1a !important;
+    }
+    
+    .tooltip-icon:hover {
+        background-color: #4da6ff !important;
+    }
+    
+    .tooltip-text {
+        background-color: #1a1a1a !important;
+        border-color: #333333 !important;
+    }
+    
+    .tooltip-text::after {
+        border-color: #1a1a1a transparent transparent transparent !important;
+    }
+}
+
+/* Mobile responsive tooltips */
+@media (max-width: 768px) {
+    .tooltip-text {
+        width: 200px !important;
+        margin-left: -100px !important;
+        font-size: 13px !important;
+        padding: 10px 12px !important;
+    }
+}
+
+/* Accessibility improvements for tooltips */
+.tooltip-icon {
+    outline: none !important;
+}
+
+.tooltip-icon:focus {
+    outline: 2px solid #007bff !important;
+    outline-offset: 2px !important;
+}
+
+/* Alternative tooltip positioning for elements near screen edges */
+.tooltip-icon.tooltip-left .tooltip-text {
+    left: auto !important;
+    right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: -10px !important;
+}
+
+.tooltip-icon.tooltip-right .tooltip-text {
+    left: 0 !important;
+    margin-left: -10px !important;
+}
+
+/* ===========================================
+   END FIX-TOOLTIP-VISIBILITY tooltip visibility improvements
+   =========================================== */
+

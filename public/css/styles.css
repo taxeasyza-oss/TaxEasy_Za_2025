@@ -16,52 +16,6 @@ input, button {
 }
 
 /* ======================
-   5-Step Wizard Styles
-   ====================== */
-.wizard-navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-  margin: 2rem 0;
-}
-
-.wizard-page {
-  display: none;
-  animation: fadeIn 0.3s ease;
-}
-
-.wizard-page.active {
-  display: block;
-}
-
-.page-dots {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin: 2rem 0;
-}
-
-.page-dots .dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #2D3E50;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.page-dots .dot.active {
-  background: #A3FF00;
-  transform: scale(1.2);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ======================
    Language Switcher
    ====================== */
 .language-selector {
@@ -84,40 +38,6 @@ input, button {
 
 .language-flag:hover {
   transform: scale(1.1);
-}
-
-/* ======================
-   Tooltip System
-   ====================== */
-.tooltip-icon {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #3b82f6;
-  color: white;
-  text-align: center;
-  font-size: 12px;
-  cursor: help;
-  margin-left: 0.5rem;
-}
-
-.tooltip-popup {
-  position: absolute;
-  background: #1B2A41;
-  color: #A3FF00;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
-  max-width: 280px;
-  border: 1px solid #3b82f6;
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.tooltip-popup strong {
-  color: #3b82f6;
 }
 
 /* ======================
@@ -156,3 +76,46 @@ input, button {
     flex-direction: column;
   }
 }
+
+/* Tooltip styles */
+.tooltip-icon {
+  cursor: pointer;
+  margin-left: 5px;
+  color: #A3FF00;
+  font-weight: bold;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the text */
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip-icon:hover + .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+

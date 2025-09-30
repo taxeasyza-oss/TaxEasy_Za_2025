@@ -1,0 +1,436 @@
+/* TaxEasy ZA 2025 - Wizard Styles */
+
+.wizard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Step Indicator */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 20px 0;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.step-indicator .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 20px;
+    margin: 0 10px;
+    background: #e2e8f0;
+    color: #64748b;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 120px;
+    text-align: center;
+}
+
+.step-indicator .step.active {
+    background: #3b82f6;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.step-indicator .step.completed {
+    background: #10b981;
+    color: white;
+}
+
+.step-indicator .step:hover {
+    background: #cbd5e1;
+}
+
+.step-indicator .step.active:hover {
+    background: #2563eb;
+}
+
+.step-indicator .step.completed:hover {
+    background: #059669;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: currentColor;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.step-indicator .step:not(.active):not(.completed) .step-number {
+    background: #94a3b8;
+}
+
+.step-title {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* Wizard Form Container */
+.wizard-form {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Wizard Steps - CRITICAL: Hide all steps by default */
+.wizard-step {
+    display: none !important;
+    padding: 40px;
+    min-height: 500px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Show only active step */
+.wizard-step.active {
+    display: block !important;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Step Headers */
+.step-header {
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 20px;
+}
+
+.step-header h3 {
+    color: #1f2937;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.step-header p {
+    color: #6b7280;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: white;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input.is-invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-group input[type="number"] {
+    text-align: right;
+}
+
+/* Navigation Buttons */
+.wizard-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding: 30px 40px;
+    background: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Summary Section */
+.summary-section {
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #e2e8f0;
+}
+
+.summary-section h4 {
+    color: #1f2937;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #3b82f6;
+    padding-bottom: 10px;
+}
+
+.summary-section p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.summary-section p:last-child {
+    border-bottom: none;
+    font-weight: 600;
+    font-size: 18px;
+    color: #1f2937;
+}
+
+/* Report Options */
+.report-options-section {
+    margin-top: 30px;
+}
+
+.report-options-section h4 {
+    color: #1f2937;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.report-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.report-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+}
+
+.report-card.professional {
+    border-color: #10b981;
+}
+
+.report-card.professional:hover {
+    border-color: #059669;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.report-card.premium {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%);
+}
+
+.report-card.premium:hover {
+    border-color: #d97706;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.report-card h5 {
+    color: #1f2937;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.report-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.report-card ul li {
+    padding: 8px 0;
+    color: #4b5563;
+    font-size: 14px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.report-card ul li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+}
+
+/* Tooltip System */
+.tooltip-container {
+    position: absolute;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    background: #1f2937;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+    max-width: 300px;
+    word-wrap: break-word;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wizard-container {
+        padding: 15px;
+    }
+    
+    .step-indicator {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .step-indicator .step {
+        min-width: 100px;
+        font-size: 12px;
+        padding: 10px 15px;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .wizard-step {
+        padding: 20px;
+        min-height: 400px;
+    }
+    
+    .step-header h3 {
+        font-size: 24px;
+    }
+    
+    .wizard-navigation {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .step-indicator .step {
+        min-width: 80px;
+        font-size: 11px;
+        padding: 8px 10px;
+    }
+    
+    .step-number {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+    }
+    
+    .wizard-step {
+        padding: 15px;
+    }
+    
+    .step-header h3 {
+        font-size: 20px;
+    }
+}
+

@@ -46,7 +46,7 @@
     <div id="popiaConsent" class="popia-banner" style="display: none;">
         <div class="popia-content">
             <div class="popia-text">
-                <p><strong>🔒 Privacy Notice:</strong> We use cookies and collect personal information to provide our tax calculation services. By continuing to use this site, you consent to our use of cookies and processing of your personal information in accordance with our <a href="https://docs.google.com/document/d/1QF4pDoj65Op0aG4y1C8HygfPYFDj0RxXimA3lANbAPs/edit?usp=sharing">Privacy Policy</a> and South Africa's POPIA regulations.</p>
+                <p><strong>🔒 Privacy Notice:</strong> We use cookies and collect personal information to provide our tax calculation services. By continuing to use this site, you consent to our use of cookies and processing of your personal information in accordance with our <a href="privacy-policy.html">Privacy Policy</a> and South Africa's POPIA regulations.</p>
             </div>
             <div class="popia-actions">
                 <button id="acceptPopia" class="btn btn-primary">Accept & Continue</button>
@@ -455,11 +455,11 @@
                     <h4 data-translate="support_title">Support & Resources</h4>
                     <ul>
                         <li><a href="#" data-translate="help_center">📚 Help Center</a></li>
-                        <li><a href="https://docs.google.com/document/d/1jIqJ9312PIt6AJ-dN6aco9XcJ80BYk1Ly-hRrIzPxuI/edit?usp=sharing" data-translate="contact_us">📞 Contact Us</a></li>
+                        <li><a href="#" data-translate="contact_us">📞 Contact Us</a></li>
                         <li><a href="#" data-translate="tax_guides">📖 Tax Guides</a></li>
                         <li><a href="#" data-translate="video_tutorials">🎥 Video Tutorials</a></li>
-                        <li><a href="https://docs.google.com/document/d/1QF4pDoj65Op0aG4y1C8HygfPYFDj0RxXimA3lANbAPs/edit?usp=sharing" data-translate="privacy_policy">🔒 Privacy Policy</a></li>
-                        <li><a href="https://docs.google.com/document/d/1MWXHqvQFPhl--3mH1LtnQvoz4shRm4fXMQvH9iA5M2Q/edit?usp=sharing" data-translate="terms_service">📋 Terms of Service</a></li>
+                        <li><a href="#" data-translate="privacy_policy">🔒 Privacy Policy</a></li>
+                        <li><a href="#" data-translate="terms_service">📋 Terms of Service</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
@@ -851,11 +851,11 @@
                     <h4 data-translate="support_title">Support & Resources</h4>
                     <ul>
                         <li><a href="#" data-translate="help_center">📚 Help Center</a></li>
-                        <li><a href="https://docs.google.com/document/d/1jIqJ9312PIt6AJ-dN6aco9XcJ80BYk1Ly-hRrIzPxuI/edit?usp=sharing" data-translate="contact_us">📞 Contact Us</a></li>
+                        <li><a href="#" data-translate="contact_us">📞 Contact Us</a></li>
                         <li><a href="#" data-translate="tax_guides">📖 Tax Guides</a></li>
                         <li><a href="#" data-translate="video_tutorials">🎥 Video Tutorials</a></li>
-                        <li><a href="https://docs.google.com/document/d/1QF4pDoj65Op0aG4y1C8HygfPYFDj0RxXimA3lANbAPs/edit?usp=sharing" data-translate="privacy_policy">🔒 Privacy Policy</a></li>
-                        <li><a href="https://docs.google.com/document/d/1MWXHqvQFPhl--3mH1LtnQvoz4shRm4fXMQvH9iA5M2Q/edit?usp=sharing" data-translate="terms_service">📋 Terms of Service</a></li>
+                        <li><a href="#" data-translate="privacy_policy">🔒 Privacy Policy</a></li>
+                        <li><a href="#" data-translate="terms_service">📋 Terms of Service</a></li>
                     </ul>
                 </div>
                 <div class="footer-section contact">
@@ -1246,11 +1246,11 @@
                     <h4 data-translate="support_title">Support & Resources</h4>
                     <ul>
                         <li><a href="#" data-translate="help_center">📚 Help Center</a></li>
-                        <li><a href="https://docs.google.com/document/d/1jIqJ9312PIt6AJ-dN6aco9XcJ80BYk1Ly-hRrIzPxuI/edit?usp=sharing" data-translate="contact_us">📞 Contact Us</a></li>
+                        <li><a href="#" data-translate="contact_us">📞 Contact Us</a></li>
                         <li><a href="#" data-translate="tax_guides">📖 Tax Guides</a></li>
                         <li><a href="#" data-translate="video_tutorials">🎥 Video Tutorials</a></li>
-                        <li><a href="https://docs.google.com/document/d/1QF4pDoj65Op0aG4y1C8HygfPYFDj0RxXimA3lANbAPs/edit?usp=sharing" data-translate="privacy_policy">🔒 Privacy Policy</a></li>
-                        <li><a href="https://docs.google.com/document/d/1MWXHqvQFPhl--3mH1LtnQvoz4shRm4fXMQvH9iA5M2Q/edit?usp=sharing" data-translate="terms_service">📋 Terms of Service</a></li>
+                        <li><a href="#" data-translate="privacy_policy">🔒 Privacy Policy</a></li>
+                        <li><a href="#" data-translate="terms_service">📋 Terms of Service</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -1263,28 +1263,7 @@
                 <p class="disclaimer" data-translate="disclaimer">This calculator provides estimates only. Consult a tax professional for complex situations. #TaxMadeEasy #TaxEasyZA #SARSHelp</p>
             </div>
         </div>
-    </footer>
-
-    <!-- BEGIN FIX-#PROMO-CODES promotional code modal – DO NOT EDIT ABOVE -->
-    <div id="promoCodeModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2 data-translate="promo_code_modal_title">Enter Promotional Code</h2>
-            <div class="input-group">
-                <input type="text" id="promoCodeInput" placeholder="Enter promotional code" class="form-control">
-                <button id="applyPromoCode" class="btn btn-primary">Apply</button>
-            </div>
-            <p id="promoCodeMessage" class="promo-message"></p>
-        </div>
-    </div>
-    <!-- END FIX-#PROMO-CODES -->
-
-    <!-- BEGIN FIX-#PROMO-CODES promotional code link – DO NOT EDIT ABOVE -->
-    <a href="#" id="showPromoCodeLink" class="promo-code-link" data-translate="promo_code_link">Have a promotional code?</a>
-    <!-- END FIX-#PROMO-CODES -->
-
-    <!-- JavaScript Files -->
-    <script src="js/tooltip-fix.js"></script>
+    </footer    <!-- JavaScript Files -->
     <script src="js/translations.js"></script>
     <script src="js/language-system.js"></script>
     <script src="js/tooltip-system.js"></script>
@@ -1321,3 +1300,27 @@
     </script>
 </body>
 </html>
+
+
+
+
+    <!-- BEGIN FIX-#PROMO-CODES promotional code modal – DO NOT EDIT ABOVE -->
+    <div id="promoCodeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 data-translate="promo_code_modal_title">Enter Promotional Code</h2>
+            <div class="input-group">
+                <input type="text" id="promoCodeInput" placeholder="Enter promotional code" class="form-control">
+                <button id="applyPromoCode" class="btn btn-primary">Apply</button>
+            </div>
+            <p id="promoCodeMessage" class="promo-message"></p>
+        </div>
+    </div>
+    <!-- END FIX-#PROMO-CODES -->
+
+    <!-- BEGIN FIX-#PROMO-CODES promotional code link – DO NOT EDIT ABOVE -->
+    <a href="#" id="showPromoCodeLink" class="promo-code-link" data-translate="promo_code_link">Have a promotional code?</a>
+    <!-- END FIX-#PROMO-CODES -->
+
+</body>
+

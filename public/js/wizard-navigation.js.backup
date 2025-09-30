@@ -1,0 +1,751 @@
+// TaxEasy ZA 2025 - Enhanced Wizard Navigation System
+class TaxWizard {
+    constructor() {
+        this.currentPage = 1;
+        this.totalPages = 5;
+        this.formData = {};
+        this.taxCalculation = null;
+        
+        this.pages = {
+            1: 'personal-info',
+            2: 'income-details', 
+            3: 'deductions',
+            4: 'advanced-deductions',
+            5: 'summary-reports'
+        };
+
+        this.init();
+    }
+
+    init() {
+        this.createWizardPages();
+        this.setupEventListeners();
+        this.showPage(1);
+        this.updateProgressBar();
+        this.setupTooltips();
+        this.setupLiveCalculation();
+    }
+
+    createWizardPages() {
+        const container = document.querySelector('.wizard-container') || document.body;
+        
+        // Create wizard pages structure
+        const wizardHTML = `
+            <div class="wizard-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">Personal</div>
+                    <div class="step" data-step="2">Income</div>
+                    <div class="step" data-step="3">Deductions</div>
+                    <div class="step" data-step="4">Advanced</div>
+                    <div class="step" data-step="5">Summary</div>
+                </div>
+            </div>
+
+            <div class="wizard-pages">
+                <!-- Page 1: Personal Information -->
+                <div class="wizard-page active" id="page-1">
+                    <h2 data-translate="personal_information">Personal Information</h2>
+                    <div class="form-group">
+                        <label for="fullName" data-translate="full_name">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" data-translate-placeholder="enter_full_name">
+                        <div class="tooltip-icon" data-tooltip="full_name_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="idNumber" data-translate="id_number">ID/Passport Number</label>
+                        <input type="text" id="idNumber" name="idNumber" data-translate-placeholder="enter_id_number">
+                        <div class="tooltip-icon" data-tooltip="id_number_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="age" data-translate="age_group">Age Group</label>
+                        <select id="age" name="age">
+                            <option value="under65" data-translate="under_65">Under 65</option>
+                            <option value="65-74" data-translate="age_65_74">65-74</option>
+                            <option value="75+" data-translate="age_75_plus">75+</option>
+                        </select>
+                        <div class="tooltip-icon" data-tooltip="age_group_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="occupation" data-translate="occupation">Occupation</label>
+                        <select id="occupation" name="occupation">
+                            <option value="" data-translate="select_occupation">Select Occupation</option>
+                            <option value="Doctor" data-translate="doctor">Doctor</option>
+                            <option value="Teacher" data-translate="teacher">Teacher</option>
+                            <option value="IT Professional" data-translate="it_professional">IT Professional</option>
+                            <option value="Engineer" data-translate="engineer">Engineer</option>
+                            <option value="Healthcare Worker" data-translate="healthcare_worker">Healthcare Worker</option>
+                            <option value="Other" data-translate="other">Other</option>
+                        </select>
+                        <div class="tooltip-icon" data-tooltip="occupation_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" data-translate="email_address">Email Address</label>
+                        <input type="email" id="email" name="email" data-translate-placeholder="enter_email">
+                        <div class="tooltip-icon" data-tooltip="email_tooltip">?</div>
+                    </div>
+                </div>
+
+                <!-- Page 2: Income Details -->
+                <div class="wizard-page" id="page-2">
+                    <h2 data-translate="income_details">Income Details</h2>
+                    <div class="form-group">
+                        <label for="basicSalary" data-translate="basic_salary">Basic Salary</label>
+                        <input type="number" id="basicSalary" name="basicSalary" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="basic_salary_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bonus" data-translate="bonus">Bonus</label>
+                        <input type="number" id="bonus" name="bonus" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="bonus_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="overtime" data-translate="overtime">Overtime</label>
+                        <input type="number" id="overtime" name="overtime" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="overtime_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="travelAllowance" data-translate="travel_allowance">Travel Allowance</label>
+                        <input type="number" id="travelAllowance" name="travelAllowance" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="travel_allowance_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cellphoneAllowance" data-translate="cellphone_allowance">Cellphone Allowance</label>
+                        <input type="number" id="cellphoneAllowance" name="cellphoneAllowance" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="cellphone_allowance_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="otherAllowances" data-translate="other_allowances">Other Allowances</label>
+                        <input type="number" id="otherAllowances" name="otherAllowances" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="other_allowances_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="interestIncome" data-translate="interest_income">Interest Income</label>
+                        <input type="number" id="interestIncome" name="interestIncome" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="interest_income_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dividendIncome" data-translate="dividend_income">Dividend Income</label>
+                        <input type="number" id="dividendIncome" name="dividendIncome" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="dividend_income_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rentalIncome" data-translate="rental_income">Rental Income</label>
+                        <input type="number" id="rentalIncome" name="rentalIncome" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="rental_income_tooltip">?</div>
+                    </div>
+                </div>
+
+                <!-- Page 3: Deductions -->
+                <div class="wizard-page" id="page-3">
+                    <h2 data-translate="deductions">Deductions</h2>
+                    <div class="form-group">
+                        <label for="pensionFund" data-translate="pension_fund">Pension Fund</label>
+                        <input type="number" id="pensionFund" name="pensionFund" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="pension_fund_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="providentFund" data-translate="provident_fund">Provident Fund</label>
+                        <input type="number" id="providentFund" name="providentFund" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="provident_fund_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="retirementAnnuity" data-translate="retirement_annuity">Retirement Annuity</label>
+                        <input type="number" id="retirementAnnuity" name="retirementAnnuity" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="retirement_annuity_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicalAid" data-translate="medical_aid">Medical Aid Contributions</label>
+                        <input type="number" id="medicalAid" name="medicalAid" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="medical_aid_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicalMembers" data-translate="medical_members">Medical Aid Members</label>
+                        <input type="number" id="medicalMembers" name="medicalMembers" min="0" max="10" data-translate-placeholder="number_of_members">
+                        <div class="tooltip-icon" data-tooltip="medical_members_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicalDependants" data-translate="medical_dependants">Medical Aid Dependants</label>
+                        <input type="number" id="medicalDependants" name="medicalDependants" min="0" max="10" data-translate-placeholder="number_of_dependants">
+                        <div class="tooltip-icon" data-tooltip="medical_dependants_tooltip">?</div>
+                    </div>
+                </div>
+
+                <!-- Page 4: Advanced Deductions -->
+                <div class="wizard-page" id="page-4">
+                    <h2 data-translate="advanced_deductions">Advanced Deductions</h2>
+                    <div class="form-group">
+                        <label for="donations" data-translate="donations">Donations</label>
+                        <input type="number" id="donations" name="donations" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="donations_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="homeOffice" data-translate="home_office">Home Office Expenses</label>
+                        <input type="number" id="homeOffice" name="homeOffice" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="home_office_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="solarPV" data-translate="solar_pv">Solar PV System (Section 12B)</label>
+                        <input type="number" id="solarPV" name="solarPV" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="solar_pv_tooltip">?</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="businessTravel" data-translate="business_travel">Business Travel Expenses</label>
+                        <input type="number" id="businessTravel" name="businessTravel" step="0.01" min="0" data-translate-placeholder="enter_amount">
+                        <div class="tooltip-icon" data-tooltip="business_travel_tooltip">?</div>
+                    </div>
+                    
+                    <!-- Occupation-specific fields will be dynamically added here -->
+                    <div id="occupationSpecificFields"></div>
+                </div>
+
+                <!-- Page 5: Summary and Reports -->
+                <div class="wizard-page" id="page-5">
+                    <h2 data-translate="tax_summary">Tax Calculation Summary</h2>
+                    <div class="summary-container">
+                        <div class="summary-card">
+                            <h3 data-translate="income_summary">Income Summary</h3>
+                            <div class="summary-item">
+                                <span data-translate="gross_income">Gross Income:</span>
+                                <span id="summaryGrossIncome">R0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span data-translate="taxable_income">Taxable Income:</span>
+                                <span id="summaryTaxableIncome">R0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <h3 data-translate="tax_summary">Tax Summary</h3>
+                            <div class="summary-item highlight">
+                                <span data-translate="tax_payable">Tax Payable:</span>
+                                <span id="summaryTaxPayable">R0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span data-translate="monthly_tax">Monthly Tax:</span>
+                                <span id="summaryMonthlyTax">R0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span data-translate="effective_rate">Effective Rate:</span>
+                                <span id="summaryEffectiveRate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="report-options">
+                        <h3 data-translate="report_options">Report Options</h3>
+                        <div class="report-cards">
+                            <div class="report-card">
+                                <h4 data-translate="basic_report">Basic Report</h4>
+                                <p class="price">FREE</p>
+                                <ul>
+                                    <li data-translate="basic_calculation">Basic tax calculation</li>
+                                    <li data-translate="watermarked">Watermarked PDF</li>
+                                    <li data-translate="summary_only">Summary only</li>
+                                </ul>
+                                <button id="generateBasicReport" class="btn btn-secondary" data-translate="download_basic">Download Basic Report</button>
+                            </div>
+                            
+                            <div class="report-card featured">
+                                <h4 data-translate="professional_report">Professional Report</h4>
+                                <p class="price">R299</p>
+                                <ul>
+                                    <li data-translate="detailed_breakdown">Detailed tax breakdown</li>
+                                    <li data-translate="optimization_advice">Optimization advice</li>
+                                    <li data-translate="sars_guide">SARS eFiling guide</li>
+                                    <li data-translate="professional_pdf">Professional PDF</li>
+                                </ul>
+                                <button id="generateProfessionalReport" class="btn btn-primary" data-translate="purchase_professional">Purchase Professional Report</button>
+                            </div>
+                            
+                            <div class="report-card">
+                                <h4 data-translate="premium_package">Premium Package</h4>
+                                <p class="price">R599</p>
+                                <ul>
+                                    <li data-translate="everything_professional">Everything in Professional</li>
+                                    <li data-translate="consultation_call">30-min consultation call</li>
+                                    <li data-translate="priority_support">Priority support</li>
+                                    <li data-translate="tax_planning">Tax planning advice</li>
+                                </ul>
+                                <button id="purchasePremiumPackage" class="btn btn-premium" data-translate="purchase_premium">Purchase Premium Package</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wizard-navigation">
+                <button id="prevBtn" class="btn btn-secondary" data-translate="previous">← Previous</button>
+                <button id="nextBtn" class="btn btn-primary" data-translate="next">Next →</button>
+            </div>
+
+            <div class="live-summary">
+                <h4 data-translate="live_summary">Live Summary</h4>
+                <div class="live-item">
+                    <span data-translate="gross_income">Gross Income:</span>
+                    <span id="liveGrossIncome">R0</span>
+                </div>
+                <div class="live-item">
+                    <span data-translate="tax_payable">Tax Payable:</span>
+                    <span id="liveTaxPayable">R0</span>
+                </div>
+                <div class="live-item">
+                    <span data-translate="net_income">Net Income:</span>
+                    <span id="liveNetIncome">R0</span>
+                </div>
+            </div>
+        `;
+
+        // Replace existing content or append to container
+        const existingWizard = document.querySelector('.wizard-container');
+        if (existingWizard) {
+            existingWizard.innerHTML = wizardHTML;
+        } else {
+            const wizardContainer = document.createElement('div');
+            wizardContainer.className = 'wizard-container';
+            wizardContainer.innerHTML = wizardHTML;
+            
+            // Find a good place to insert the wizard
+            const mainContent = document.querySelector('main') || document.querySelector('.container') || document.body;
+            mainContent.appendChild(wizardContainer);
+        }
+    }
+
+    setupEventListeners() {
+        // Navigation buttons
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => this.previousPage());
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.nextPage());
+        }
+
+        // Form inputs for live calculation
+        const inputs = document.querySelectorAll('input[type="number"], select');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => this.updateLiveCalculation());
+            input.addEventListener('change', () => this.updateLiveCalculation());
+        });
+
+        // Occupation change for dynamic fields
+        const occupationSelect = document.getElementById('occupation');
+        if (occupationSelect) {
+            occupationSelect.addEventListener('change', () => this.loadOccupationSpecificFields());
+        }
+    }
+
+    showPage(pageNumber) {
+        // Hide all pages
+        document.querySelectorAll('.wizard-page').forEach(page => {
+            page.classList.remove('active');
+        });
+
+        // Show current page
+        const currentPageElement = document.getElementById(`page-${pageNumber}`);
+        if (currentPageElement) {
+            currentPageElement.classList.add('active');
+        }
+
+        this.currentPage = pageNumber;
+        this.updateProgressBar();
+        this.updateNavigationButtons();
+        this.updateLiveCalculation();
+
+        // Load occupation-specific fields if on advanced deductions page
+        if (pageNumber === 4) {
+            this.loadOccupationSpecificFields();
+        }
+
+        // Update summary if on summary page
+        if (pageNumber === 5) {
+            this.updateSummary();
+        }
+    }
+
+    updateProgressBar() {
+        const progress = ((this.currentPage - 1) / (this.totalPages - 1)) * 100;
+        const progressFill = document.getElementById('progress-fill');
+        if (progressFill) {
+            progressFill.style.width = `${progress}%`;
+        }
+
+        // Update step indicators
+        document.querySelectorAll('.progress-steps .step').forEach(step => {
+            const stepNum = parseInt(step.dataset.step);
+            if (stepNum === this.currentPage) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+    }
+
+    updateNavigationButtons() {
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (prevBtn) {
+            prevBtn.disabled = this.currentPage === 1;
+        }
+
+        if (nextBtn) {
+            if (this.currentPage === this.totalPages) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                nextBtn.textContent = this.currentPage === this.totalPages - 1 ? 'View Summary' : 'Next →';
+            }
+        }
+    }
+
+    previousPage() {
+        if (this.currentPage > 1) {
+            this.showPage(this.currentPage - 1);
+        }
+    }
+
+    nextPage() {
+        if (this.validateCurrentPage()) {
+            if (this.currentPage < this.totalPages) {
+                this.showPage(this.currentPage + 1);
+            }
+        }
+    }
+
+    validateCurrentPage() {
+        // Basic validation - can be enhanced
+        const currentPageElement = document.getElementById(`page-${this.currentPage}`);
+        const requiredFields = currentPageElement.querySelectorAll('input[required], select[required]');
+        
+        for (let field of requiredFields) {
+            if (!field.value.trim()) {
+                field.focus();
+                this.showValidationError(`Please fill in ${field.previousElementSibling.textContent}`);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    showValidationError(message) {
+        // Create or update validation message
+        let errorDiv = document.querySelector('.validation-error');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'validation-error';
+            errorDiv.style.cssText = `
+                background: #fee2e2;
+                color: #dc2626;
+                padding: 10px;
+                border-radius: 5px;
+                margin: 10px 0;
+                border: 1px solid #fecaca;
+            `;
+            document.querySelector(`#page-${this.currentPage}`).prepend(errorDiv);
+        }
+        errorDiv.textContent = message;
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.parentNode.removeChild(errorDiv);
+            }
+        }, 5000);
+    }
+
+    collectFormData() {
+        const formData = {};
+        const inputs = document.querySelectorAll('input, select');
+        
+        inputs.forEach(input => {
+            if (input.name) {
+                formData[input.name] = input.value;
+            }
+        });
+
+        return formData;
+    }
+
+    async updateLiveCalculation() {
+        try {
+            const formData = this.collectFormData();
+            
+            // Calculate gross income
+            const grossIncome = 
+                parseFloat(formData.basicSalary || 0) +
+                parseFloat(formData.bonus || 0) +
+                parseFloat(formData.overtime || 0) +
+                parseFloat(formData.travelAllowance || 0) +
+                parseFloat(formData.cellphoneAllowance || 0) +
+                parseFloat(formData.otherAllowances || 0) +
+                parseFloat(formData.interestIncome || 0) +
+                parseFloat(formData.dividendIncome || 0) +
+                parseFloat(formData.rentalIncome || 0);
+
+            // Calculate total retirement funding
+            const retirementFunding = 
+                parseFloat(formData.pensionFund || 0) +
+                parseFloat(formData.providentFund || 0) +
+                parseFloat(formData.retirementAnnuity || 0);
+
+            // Prepare tax calculation data
+            const taxData = {
+                grossIncome: grossIncome,
+                ageGroup: formData.age || 'under65',
+                retirementFunding: retirementFunding,
+                medicalAidContributions: parseFloat(formData.medicalAid || 0),
+                medicalMembers: parseInt(formData.medicalMembers || 0),
+                medicalDependants: parseInt(formData.medicalDependants || 0)
+            };
+
+            // Only calculate if there's some income
+            if (grossIncome > 0) {
+                const response = await fetch('/api/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(taxData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    this.taxCalculation = result.calculation;
+                    this.updateLiveSummaryDisplay();
+                }
+            } else {
+                // Reset to zero if no income
+                this.taxCalculation = {
+                    grossIncome: 0,
+                    taxPayable: 0,
+                    netIncome: 0,
+                    effectiveRate: 0
+                };
+                this.updateLiveSummaryDisplay();
+            }
+        } catch (error) {
+            console.error('Live calculation error:', error);
+        }
+    }
+
+    updateLiveSummaryDisplay() {
+        if (!this.taxCalculation) return;
+
+        const elements = {
+            liveGrossIncome: document.getElementById('liveGrossIncome'),
+            liveTaxPayable: document.getElementById('liveTaxPayable'),
+            liveNetIncome: document.getElementById('liveNetIncome')
+        };
+
+        if (elements.liveGrossIncome) {
+            elements.liveGrossIncome.textContent = `R${this.taxCalculation.grossIncome.toLocaleString()}`;
+        }
+        if (elements.liveTaxPayable) {
+            elements.liveTaxPayable.textContent = `R${this.taxCalculation.taxPayable.toLocaleString()}`;
+        }
+        if (elements.liveNetIncome) {
+            elements.liveNetIncome.textContent = `R${this.taxCalculation.netIncome.toLocaleString()}`;
+        }
+    }
+
+    updateSummary() {
+        if (!this.taxCalculation) {
+            this.updateLiveCalculation();
+            return;
+        }
+
+        const elements = {
+            summaryGrossIncome: document.getElementById('summaryGrossIncome'),
+            summaryTaxableIncome: document.getElementById('summaryTaxableIncome'),
+            summaryTaxPayable: document.getElementById('summaryTaxPayable'),
+            summaryMonthlyTax: document.getElementById('summaryMonthlyTax'),
+            summaryEffectiveRate: document.getElementById('summaryEffectiveRate')
+        };
+
+        if (elements.summaryGrossIncome) {
+            elements.summaryGrossIncome.textContent = `R${this.taxCalculation.grossIncome.toLocaleString()}`;
+        }
+        if (elements.summaryTaxableIncome) {
+            elements.summaryTaxableIncome.textContent = `R${this.taxCalculation.taxableIncome.toLocaleString()}`;
+        }
+        if (elements.summaryTaxPayable) {
+            elements.summaryTaxPayable.textContent = `R${this.taxCalculation.taxPayable.toLocaleString()}`;
+        }
+        if (elements.summaryMonthlyTax) {
+            elements.summaryMonthlyTax.textContent = `R${this.taxCalculation.monthlyTax.toLocaleString()}`;
+        }
+        if (elements.summaryEffectiveRate) {
+            elements.summaryEffectiveRate.textContent = `${this.taxCalculation.effectiveRate}%`;
+        }
+    }
+
+    loadOccupationSpecificFields() {
+        const occupation = document.getElementById('occupation')?.value;
+        const container = document.getElementById('occupationSpecificFields');
+        
+        if (!container) return;
+        
+        container.innerHTML = ''; // Clear previous fields
+
+        let fields = [];
+        switch (occupation) {
+            case "Doctor":
+                fields = [
+                    { id: "docRegFees", label: "Professional Registration Fees", max: 150000 },
+                    { id: "medEquipment", label: "Medical Equipment Purchase", max: 150000 },
+                    { id: "indemnityIns", label: "Indemnity Insurance", max: 150000 }
+                ];
+                break;
+            case "Teacher":
+                fields = [
+                    { id: "eduResources", label: "Educational Resources", max: 80000 },
+                    { id: "profDevCourses", label: "Professional Development Courses", max: 80000 }
+                ];
+                break;
+            case "IT Professional":
+                fields = [
+                    { id: "softwareLicenses", label: "Software Licenses", max: 120000 },
+                    { id: "hardwarePurchase", label: "Hardware Purchase", max: 120000 },
+                    { id: "internetCosts", label: "Internet Costs (Business Portion)", max: 120000 }
+                ];
+                break;
+            case "Engineer":
+                fields = [
+                    { id: "profTools", label: "Professional Tools", max: 50000 },
+                    { id: "engSoftware", label: "Engineering Software Licenses", max: 50000 },
+                    { id: "devCourses", label: "Development Courses", max: 50000 }
+                ];
+                break;
+            case "Healthcare Worker":
+                fields = [
+                    { id: "uniformCosts", label: "Uniform Costs", max: 100000 },
+                    { id: "hcRegFees", label: "Professional Registration Fees", max: 100000 },
+                    { id: "hcEquipment", label: "Medical Equipment (Small)", max: 100000 }
+                ];
+                break;
+        }
+
+        fields.forEach(field => {
+            const div = document.createElement("div");
+            div.classList.add("form-group");
+            div.innerHTML = `
+                <label for="${field.id}">${field.label}</label>
+                <input type="number" id="${field.id}" name="${field.id}" 
+                       placeholder="0.00" step="0.01" min="0" max="${field.max}">
+                <div class="tooltip-icon" data-tooltip="${occupation}_${field.id}_tooltip">?</div>
+            `;
+            container.appendChild(div);
+            
+            // Add event listener for live calculation
+            const input = div.querySelector('input');
+            input.addEventListener('input', () => this.updateLiveCalculation());
+        });
+
+        this.setupTooltips();
+    }
+
+    setupTooltips(lang = 'en') {
+        document.querySelectorAll(".tooltip-icon").forEach(icon => {
+            // Remove existing event listeners
+            icon.removeEventListener("mouseenter", this.showTooltip);
+            icon.removeEventListener("mouseleave", this.hideTooltip);
+            icon.removeEventListener("click", this.toggleTooltip);
+
+            const tooltipKey = icon.dataset.tooltip;
+            let content = "Tooltip information will be available here.";
+            
+            // Get tooltip content from translations if available
+            if (window.translations && window.translations[lang] && window.translations[lang][tooltipKey]) {
+                content = window.translations[lang][tooltipKey];
+            } else if (window.translations && window.translations.en && window.translations.en[tooltipKey]) {
+                content = window.translations.en[tooltipKey];
+            }
+
+            icon.dataset.tooltipContent = content;
+            icon.addEventListener("mouseenter", this.showTooltip.bind(this));
+            icon.addEventListener("mouseleave", this.hideTooltip.bind(this));
+            icon.addEventListener("click", this.toggleTooltip.bind(this));
+        });
+    }
+
+    showTooltip(event) {
+        const icon = event.target;
+        let tooltipBox = icon.nextElementSibling;
+        if (!tooltipBox || !tooltipBox.classList.contains("tooltip-box")) {
+            tooltipBox = document.createElement("div");
+            tooltipBox.classList.add("tooltip-box");
+            tooltipBox.style.cssText = `
+                position: absolute;
+                background: #333;
+                color: white;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 12px;
+                max-width: 200px;
+                z-index: 1000;
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity 0.3s;
+                top: 100%;
+                left: 0;
+                margin-top: 5px;
+            `;
+            icon.parentNode.style.position = 'relative';
+            icon.parentNode.insertBefore(tooltipBox, icon.nextSibling);
+        }
+        tooltipBox.textContent = icon.dataset.tooltipContent;
+        tooltipBox.style.visibility = "visible";
+        tooltipBox.style.opacity = "1";
+    }
+
+    hideTooltip(event) {
+        const icon = event.target;
+        const tooltipBox = icon.nextElementSibling;
+        if (tooltipBox && tooltipBox.classList.contains("tooltip-box")) {
+            tooltipBox.style.visibility = "hidden";
+            tooltipBox.style.opacity = "0";
+        }
+    }
+
+    toggleTooltip(event) {
+        const icon = event.target;
+        let tooltipBox = icon.nextElementSibling;
+        if (!tooltipBox || !tooltipBox.classList.contains("tooltip-box")) {
+            this.showTooltip(event);
+            return;
+        }
+
+        if (tooltipBox.style.visibility === "visible") {
+            tooltipBox.style.visibility = "hidden";
+            tooltipBox.style.opacity = "0";
+        } else {
+            tooltipBox.textContent = icon.dataset.tooltipContent;
+            tooltipBox.style.visibility = "visible";
+            tooltipBox.style.opacity = "1";
+        }
+    }
+
+    setupLiveCalculation() {
+        // Initial calculation
+        this.updateLiveCalculation();
+        
+        // Set up periodic updates
+        setInterval(() => {
+            this.updateLiveCalculation();
+        }, 2000); // Update every 2 seconds
+    }
+}
+
+// Initialize wizard when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.wizard = new TaxWizard();
+});
+
+// Export for external use
+window.TaxWizard = TaxWizard;
+

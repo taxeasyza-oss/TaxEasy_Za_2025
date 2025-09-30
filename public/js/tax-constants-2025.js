@@ -1,11 +1,11 @@
 // SARS 2025 Tax Rates (1 March 2024 - 28 February 2025)
 export const TAX_BRACKETS = [
-    { threshold: 237100, rate: 0.18 },
-    { threshold: 370500, rate: 0.26 },
-    { threshold: 490000, rate: 0.31 },
-    { threshold: 673000, rate: 0.36 },
-    { threshold: 857900, rate: 0.39 },
-    { threshold: 1500000, rate: 0.41 },
+    { threshold: 226000, rate: 0.18 },
+    { threshold: 353100, rate: 0.26 },
+    { threshold: 488700, rate: 0.31 },
+    { threshold: 641400, rate: 0.36 },
+    { threshold: 817600, rate: 0.39 },
+    { threshold: 1731600, rate: 0.41 },
     { threshold: Infinity, rate: 0.45 }
 ];
 
@@ -30,3 +30,5 @@ export const TRAVEL_RATES = {
     fixedPerKm: 4.20,
     deemedCostPercentage: 0.20
 };
+
+
